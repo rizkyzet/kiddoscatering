@@ -1,0 +1,12 @@
+$where_tes = ['kelas.id_kelas' => $id_kelas, 'detail_pemesanan.tgl_detail' => '2020-06-22', 'detail_pemesanan.pesan' => 'p'];
+        $this->db->select('siswa.nis,siswa.nama_siswa,detail_pemesanan.pesan,detail_jadwal.id_makanan,menu_makanan.nama_makanan as menu_hari_ini');
+        $this->db->from('sekolah');
+        $this->db->join('kelas', 'kelas.id_sekolah = sekolah.id_sekolah');
+        $this->db->join('siswa', 'siswa.id_kelas = kelas.id_kelas');
+        $this->db->join('pemesanan', 'pemesanan.nis = siswa.nis');
+        $this->db->join('detail_pemesanan', 'detail_pemesanan.no_pemesanan = pemesanan.no_pemesanan');
+        $this->db->join('detail_jadwal', 'detail_jadwal.tanggal_jadwal=detail_pemesanan.tgl_detail');
+        $this->db->join('menu_makanan', 'detail_jadwal.id_makanan=menu_makanan.id_makanan');
+        $this->db->where($where_tes);
+        $this->db->order_by('detail_pemesanan.tgl_detail', 'ASC');
+        $query = $this->db->get()->result_array();

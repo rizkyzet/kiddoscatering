@@ -1,0 +1,32 @@
+management menu makanan (admin)
+1. [] Tambah data menu makanan
+2. [] Update data Menu makanan
+3. [] Hapus data menu makanan
+4. [] Set jadwal menu makanan mingguan
+5. 
+
+management menu makanan (pelanggan)
+1. [] Tambah data menu yang tidak disukai
+
+
+
+database jadwal
+
+jadwal
+-id_jadwal
+-bulan
+-tahun
+
+
+-detail_jadwal
+-id_detail_jadwal
+-id_jadwal
+-tanggal_jadwal
+-id_makanan
+
+
+BEGIN
+
+ DELETE FROM detail_pemesanan WHERE detail_pemesanan.no_pemesanan = old.no_pemesanan;
+
+END

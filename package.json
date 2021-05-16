@@ -1,0 +1,20 @@
+{
+  "name": "kiddoscatering",
+  "version": "1.0.0",
+  "description": "project skripsi",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "kiddos"
+  ],
+  "author": "rizkyzet",
+  "license": "ISC",
+  "dependencies": {
+    "bootstrap-datepicker": "^1.9.0",
+    "bootstrap-daterangepicker": "^3.0.5",
+    "cleave.js": "^1.5.10",
+    "moment": "^2.25.3"
+  }
+}

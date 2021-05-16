@@ -1,0 +1,396 @@
+/* Navbar */
+.navbar{
+    position: relative;
+    z-index: 1;
+}
+.navbar-brand {
+font-family: Viga;
+font-size: 32px;
+
+}
+
+.navbar-brand span{
+    margin-right: -5px;
+    /* margin:auto; */
+    text-shadow: 1px 1px 1px rgba(0,0,0,0.7);
+}
+
+
+
+/* Jumbotron */
+.jumbotron{
+    background-image: url(http://localhost/kiddoscatering/assets/homepage/img/catering.jpg);
+    background-size: cover;
+    height: 540px;
+    text-align: center;
+    position: relative;
+    background-attachment: fixed;
+    overflow: hidden;
+}
+
+.jumbotron .container{
+    position: relative;
+    z-index: 1;
+
+}
+
+.jumbotron::after{
+    content: '';
+    display:block;
+    width: 100%;
+    height: 100%;
+   
+    background-image: linear-gradient(to top,rgba(0,0,0,1 ),rgba(0,0,0,0));
+    position: absolute;
+    bottom: 0;
+}
+.jumbotron h1{
+    font-family: Kaushan Script;
+}
+.jumbotron .display-4 {
+    color: white;
+ 
+    margin-top: 50px;
+    font-weight: 200;
+    text-shadow: 1px 1px 1px rgba( 0,0,0,0.6);
+    font-size: 40px;
+    margin-bottom: 30px;
+}
+.jumbotron .display-4 span {
+    font-weight: 500;
+}
+
+
+
+/* Infor Panel */
+.info-panel{
+    box-shadow: 0 3px 20px rgba(0, 0, 0, 0.5);
+    border-radius: 12px;
+    margin-top: -100px;
+    background-color: white;
+    padding:30px;
+   
+    
+}
+
+.info-panel img{
+    margin-top: 15px;
+    width : 75px;
+    height: 60px;
+
+}
+
+.info-panel a{
+    width : 110px;
+    height: 100px;
+}
+
+.info-panel h4 {
+    font-size: 16px;
+    text-transform: uppercase;
+    font-weight: bold;
+    margin-top: 5px;
+}
+
+.info-panel p {
+    font-size: 14px;
+    color: #acacac;
+    margin-top:-5px;
+    font-weight: 200;
+}
+
+/* Workingspace */
+.workingspace {
+    margin-top: 100px;
+    text-align: center;
+    
+}
+
+.workingspace h3 {
+    font-size: 53px;
+    font-weight: 200;
+    text-transform: uppercase;
+    margin-top: 10px;
+}
+.workingspace h3 span {
+    font-weight: 500;
+}
+.workingspace p {
+    font-size: 18px;
+    color: #acacac;
+    font-weight: 200;
+    margin: 30px 0;
+}
+
+/* Testimonial */
+.testimonial {
+    margin-top: 100px;
+
+}
+
+.testimonial h5 {
+    text-align: center;
+    font-weight: 200;
+    font-style: italic;
+    font-size: 24px;
+
+}
+.testimonial figure img {
+    width: 60px;
+    margin: 20px 10px 10px;
+    opacity: 0.6;
+    
+}
+.testimonial figure img.utama {
+    width: 90px;
+    opacity: 1;
+    margin-top: 5px;
+}
+.testimonial figure h5 {
+    font-size: 16px;
+    font-weight: bold;
+    font-style: normal;
+    color: #1c2c5d;
+
+}
+.testimonial figure p {
+    font-size: 12px;
+    color: #acacac;
+    margin-top: -5px ;
+
+}
+.testimonial figcaption {
+    text-align: center;
+}
+
+/* Footer */
+.footer{
+    margin-top: 100px;
+}
+.footer p {
+    color: #acacac;
+    font-size: 18px;
+}
+/* Utility */
+.tombol {
+  
+    
+    border-radius: 100px !important;
+
+ 
+}
+
+.catering {
+    color: white;
+  text-shadow: rgba(0,0,0,0.7);
+   
+}
+
+/* Muter */
+.kotak {
+    width:30px;
+    height:30px;
+    background-color:#BADA55;
+    text-align:center;
+    line-height:30px;
+    margin:3px;
+    float:left;
+    transition: 0.5s;
+       }
+       .kotak:hover {
+           transform: rotate(360deg);
+           border-radius: 50%;
+       }
+
+
+
+
+/* HALAMAN MENU */
+
+.text-kategori {
+    margin-bottom:50px; /* space from border to next element */
+    padding-bottom:10px; /* space from element to border */
+    border-bottom: 3px solid  #0062cc;
+  }
+
+
+
+
+/* DESKTOP VERSION */
+@media (min-width: 992px) {
+    /* Navbar */
+    .navbar-brand,.nav-link{
+        color:white !important;
+        text-shadow: 1px 1px 1px rgba(0,0,0,0.7);
+    }
+    .nav-link {
+        text-transform: uppercase;
+        margin-right: 30px;
+        }
+
+    .nav-link:hover::after {
+        content: '';
+        display: block;
+        border-bottom: 3px solid  #0062cc
+        ;
+        width: 50%;
+        margin: auto;
+        padding-bottom: 5px;
+        margin-bottom: -8px;
+    }
+    /* Jumbotron */
+    .jumbotron{
+        margin-top: -75px;
+        height: 600px;
+        overflow: hidden;
+    }
+    
+    .jumbotron .display-4{
+        font-size: 62px ;
+    }
+    /* Workingspace */
+    .workingspace{
+        text-align: left;
+    }
+
+    /* Testimonial */
+    .testimonial h5 {
+        font-size: 32px;
+    }
+
+
+    /* Parallax */
+.working-1 {
+    opacity: 0;
+    transition: 1s;
+    /* transform: translate(0,-100px); */
+    margin-left: -200px;
+    margin-right: 200px;
+}
+
+.working-1.muncul {
+    opacity: 1;
+    /* transform: translate(0,0); */
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
+.working-2 {
+    opacity: 0;
+    margin-right: -200px;
+    margin-left: 200px;
+    transition: 1s;
+}
+
+.working-2.muncul{
+    opacity: 1;
+    margin-right: 0px;
+    margin-left: 0px;
+}
+.working-3 {
+    opacity: 0;
+    transition: 1s;
+    /* transform: translate(0,-100px); */
+    margin-left: -200px;
+    margin-right: 200px;
+}
+
+.working-3.muncul {
+    opacity: 1;
+    /* transform: translate(0,0); */
+    margin-left: 0px;
+    margin-right: 0px;
+}
+}
+
+
+/* Calendar */
+.my-textarea {
+    height: 100px !important;
+  }
+
+
+
+  table.getCalendar {
+    table-layout: fixed ;
+    word-wrap: break-word;
+}
+
+
+
+.getCalendar th {
+    height: 30px !important;
+    text-align: center;
+}
+
+.getCalendar td {
+
+    height: 100px !important;
+}
+
+
+.getCalendar th:nth-of-type(1),
+.getCalendar td:nth-of-type(1) {
+    color: red;
+}
+
+.getCalendar th:nth-of-type(7),
+.getCalendar td:nth-of-type(7) {
+    color: red;
+}
+
+/* h1,h2,p,a{
+    font-family: sans-serif;
+    font-weight: normal;
+} */
+
+.jam-digital-malasngoding {
+    overflow: hidden;
+    width: 330px;
+    margin: 20px auto;
+    border: 5px solid #efefef;
+}
+.kotak{
+    float: left;
+    width: 110px;
+    height: 100px;
+    background-color: #189fff;
+}
+.jam-digital-malasngoding p {
+    color: #fff;
+    font-size: 36px;
+    text-align: center;
+    margin-top: 30px;
+}
+
+/* BACK TO TOP */
+#scroll {
+    position:fixed;
+    right:10px;
+    bottom:10px;
+    cursor:pointer;
+    width:50px;
+    height:50px;
+    background-color:#3498db;
+    text-indent:-9999px;
+    display:none;
+    -webkit-border-radius:60px;
+    -moz-border-radius:60px;
+    border-radius:60px
+}
+#scroll span {
+    position:absolute;
+    top:50%;
+    left:50%;
+    margin-left:-8px;
+    margin-top:-12px;
+    height:0;
+    width:0;
+    border:8px solid transparent;
+    border-bottom-color:#ffffff;
+}
+#scroll:hover {
+    background-color:#e74c3c;
+    opacity:1;filter:"alpha(opacity=100)";
+    -ms-filter:"alpha(opacity=100)";
+}
