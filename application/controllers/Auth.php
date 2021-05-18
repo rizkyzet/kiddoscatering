@@ -15,7 +15,7 @@ class Auth extends CI_Controller
     public function index()
     {
 
-        $this->form_validation->set_rules('email', 'Email', 'required|valid_email', ['required' => 'Email harus diisi!', 'valid_email' => 'Email tidak valid!']);
+        $this->form_validation->set_rules('id', 'ID', 'required', ['required' => 'Email harus diisi!', 'valid_email' => 'Email tidak valid!']);
         $this->form_validation->set_rules('password', 'Password', 'required', ['required' => 'Password harus diisi!']);
 
         if ($this->form_validation->run() == false) {
@@ -23,8 +23,66 @@ class Auth extends CI_Controller
             $this->load->view('auth/form_login');
             $this->load->view('templates_stisla/footer');
         } else {
+            $id = $this->input->post('id');
+            $password = $this->input->post('password');
+            $employee = $this->db->get_where('user', ['email' => $id])->row_array();
+            $siswa = $this->db->get_where('siswa', ['nis' => $id])->row_array();
 
-            $email = $this->input->post('email');
+            if ($siswa) {
+                // siswa
+                if (password_verify($password, $siswa['password'])) {
+
+
+                    $data_session = [
+                        'nis' => $siswa['nis'],
+                        'role_id' => 2,
+                    ];
+
+                    $this->session->set_userdata($data_session);
+                    redirect('pelanggan/dashboard');
+                } else {
+                    $this->session->set_flashdata('pesan', '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    Password salah!
+                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                       <span aria-hidden="true">&times;</span>
+                     </button>
+                   </div>');
+                    redirect('auth');
+                }
+            } elseif ($employee) {
+                if (password_verify($password, $employee['password'])) {
+                    // admin
+                    if ($employee['role_id'] == 1) {
+                        $data_session = [
+                            'email' => $employee['email'],
+                            'role_id' => $employee['role_id']
+                        ];
+
+                        $this->session->set_userdata($data_session);
+                        redirect('admin/dashboard');
+                    }
+                } else {
+                    $this->session->set_flashdata('pesan', '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    Password salah!
+                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                       <span aria-hidden="true">&times;</span>
+                     </button>
+                   </div>');
+                    redirect('auth');
+                }
+            } else {
+                $this->session->set_flashdata('pesan', '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                Akun tidak ditemukan!
+                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                   <span aria-hidden="true">&times;</span>
+                 </button>
+               </div>');
+                redirect('auth');
+            }
+
+            die;
+            // salah
+            $email = $this->input->post('id');
             $password = $this->input->post('password');
             $user = $this->Auth_model->cek_login($email);
 

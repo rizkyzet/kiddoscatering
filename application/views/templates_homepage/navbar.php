@@ -18,15 +18,18 @@
                 <a class="nav-item nav-link" href="<?= base_url('menu') ?>">Menu kita</a>
                 <a class="nav-item nav-link" href="<?= base_url('jadwal') ?>">Jadwal</a>
                 <a class="nav-item nav-link " href="#">Tentang Kami</a>
-                <?php if ($this->session->userdata('email')) { ?>
+                <?php if ($this->session->userdata('email') or $this->session->userdata('nis')) { ?>
                     <div class="dropdown mt-1">
 
                         <img style="width: 40px; height:40px;" src="<?= base_url('assets/upload/profile/') ?><?= $user['image'] ?>" class="figure-img img-fluid rounded-circle utama" alt="Testi 2 " data-toggle="dropdown">
 
 
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-
-                            <a class="dropdown-item has-icon " href="http://localhost/kiddoscatering/admin/dashboard"><span>Dashboard</span></a>
+                            <?php if ($this->session->userdata('role_id') == 1) { ?>
+                                <a class="dropdown-item has-icon " href="http://localhost/kiddoscatering/admin/dashboard"><span>Dashboard</span></a>
+                            <?php } elseif ($this->session->userdata('role_id') == 2) { ?>
+                                <a class="dropdown-item has-icon " href="http://localhost/kiddoscatering/pelanggan/dashboard"><span>Dashboard</span></a>
+                            <?php } ?>
                             <div class="dropdown-divider"></div>
                             <a href="<?= base_url('auth/logout') ?>" class="dropdown-item has-icon text-danger">
                                 <i class="fas fa-sign-out-alt"></i> Logout

@@ -16,8 +16,16 @@ class User_model extends CI_Model
 
     public function get_user_by_login()
     {
-        $email = $this->session->userdata('email');
-        $query = $this->db->get_where('user', ['email' => $email])->row_array();
-        return $query;
+
+        if ($this->session->userdata('email')) {
+
+            $email = $this->session->userdata('email');
+            $query = $this->db->get_where('user', ['email' => $email])->row_array();
+            return $query;
+        } else {
+            $nis = $this->session->userdata('nis');
+            $query = $this->db->get_where('siswa', ['nis' => $nis])->row_array();
+            return $query;
+        }
     }
 }

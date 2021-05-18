@@ -281,7 +281,7 @@ function not_logged_in()
 
     $ci = get_instance();
 
-    if (!$ci->session->userdata('email')) {
+    if (!$ci->session->userdata('email') && !$ci->session->userdata('nis')) {
         redirect('auth');
     }
 }

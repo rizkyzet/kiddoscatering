@@ -92,6 +92,7 @@ class Master_siswa extends CI_Controller
             $this->load->view('templates_stisla_dashboard/sidebar_admin');
             $this->load->view('templates_stisla_dashboard/footer');
         } else {
+            die;
             $set = [
                 'nis' => $this->input->post('nis'),
                 'nama_siswa' => $this->input->post('nama_siswa'),

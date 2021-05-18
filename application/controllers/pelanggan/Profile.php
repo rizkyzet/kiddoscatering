@@ -87,7 +87,7 @@ class Profile extends CI_Controller
 
     public function change_password()
     {
-        $data['user'] = $this->User_model->get_spesific_user(['email' => $this->session->userdata('email')]);
+        $data['user'] = $this->User_model->get_user_by_login();
 
 
         $my_password = $this->input->post('my_password');

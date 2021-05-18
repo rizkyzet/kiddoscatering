@@ -37,7 +37,7 @@
         <li class="dropdown">
             <a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
                 <img alt="image" src="<?= base_url('assets/upload/profile/') ?><?= $user['image'] ?>" class="rounded-circle mr-1" style="width: 30px; height: 30px;">
-                <div class="d-sm-none d-lg-inline-block">Hi, <?= $user['nama'] ?></div>
+                <div class="d-sm-none d-lg-inline-block">Hi, <?= $this->session->userdata('role_id') == 2 ? $user['nama_siswa'] : $user['nama'] ?></div>
             </a>
             <div class="dropdown-menu dropdown-menu-right">
 

@@ -15,8 +15,8 @@
                         <div class="card-body">
                             <form method="POST" action="<?= base_url('auth') ?>">
                                 <div class="form-group">
-                                    <label for="email">Email</label>
-                                    <input id="email" type="text" class="form-control" name="email" value="<?= set_value('email') ?>" autofocus>
+                                    <label for="email">ID</label>
+                                    <input id="email" type="text" class="form-control" name="id" value="<?= set_value('email') ?>" autofocus>
                                     <?= form_error('email', '<div class="text-danger text-small">', '</div>') ?>
                                 </div>
 

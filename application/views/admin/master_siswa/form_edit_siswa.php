@@ -18,7 +18,7 @@
 
                             <div class="form-group">
                                 <label for="nama_siswa">Nama Siswa</label>
-                                <input class="form-control" type="text" name="nama_siswa" id="nama_siswa" value="<?= $siswa['nama_siswa'] ?>">
+                                <input class="form-control" type="text" name="nama_siswa" id="nama_siswa" value="<?= form_error('nama_siswa') ? set_value('nama_siswa') : $siswa['nama_siswa'] ?>">
                                 <?= form_error('nama_siswa', '<div class="text-danger text-small">', '</div>') ?>
                             </div>
 
