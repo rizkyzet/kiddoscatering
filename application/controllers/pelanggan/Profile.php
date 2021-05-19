@@ -20,7 +20,7 @@ class Profile extends CI_Controller
     {
 
         $data['user'] = $this->User_model->get_user_by_login();
-
+        $data['kelas'] = $this->db->get_where('kelas', ['id_kelas' => $data['user']['id_kelas']])->row_array();
         $this->load->view('templates_stisla_dashboard/header', $data);
         $this->load->view('templates_stisla_dashboard/navbar');
         $this->load->view('templates_stisla_dashboard/sidebar_pelanggan');
@@ -31,8 +31,24 @@ class Profile extends CI_Controller
     public function edit_profile()
     {
         $data['user'] = $this->User_model->get_user_by_login();
-        $this->form_validation->set_rules('nama', 'Nama', 'required');
-        $this->form_validation->set_rules('no_hp', 'No. Handphone', 'required');
+        $data['sekolah'] = $this->db->get('sekolah')->result_array();
+        // $data['kelas'] = $this->db->get('kelas')->result_array();
+        $data['tes'] = ['khalifa' => ['abu_bakar', 'tes', 'tus']];
+
+        $optgroup = [];
+        foreach ($data['sekolah'] as $index => $sklh) {
+            $kelas = $this->db->get_where('kelas', ['id_sekolah' => $sklh['id_sekolah']])->result_array();
+            $optgroup[$sklh['nama_sekolah']] = $kelas;
+        }
+
+        $data['kelas'] = $optgroup;
+
+        // validation rules
+        $this->form_validation->set_rules('nis', 'NIS', 'required|trim');
+        $this->form_validation->set_rules('nama_siswa', 'Nama', 'required|trim');
+        $this->form_validation->set_rules('id_kelas', 'Kelas', 'required|trim');
+        $this->form_validation->set_rules('alamat_siswa', 'Alamat', 'required|trim');
+        $this->form_validation->set_rules('jk', 'Jenis Kelamin', 'required|trim');
 
         if ($this->form_validation->run() == false) {
 
@@ -42,6 +58,49 @@ class Profile extends CI_Controller
             $this->load->view('pelanggan/profile/form_edit_profile');
             $this->load->view('templates_stisla_dashboard/footer');
         } else {
+
+            var_dump($this->input->post());
+
+            $nama_siswa = $this->input->post('nama_siswa');
+            $id_kelas = $this->input->post('id_kelas');
+            $alamat_siswa = $this->input->post('alamat_siswa');
+            $jk = $this->input->post('jk');
+            $upload = $_FILES['image']['name'];
+            $old_image = $data['user']['image'];
+            $set = ['nama_siswa' => $nama_siswa, 'id_kelas' => $id_kelas, 'alamat_siswa' => $alamat_siswa, 'jk' => $jk];
+
+            if ($upload) {
+
+                $this->Image_model->upload_path = './assets/upload/profile';
+                $this->Image_model->unlink_path = 'assets/upload/profile/';
+                if ($this->Image_model->do_upload_update_image_user($old_image) == true) {
+                    $new_image = ['image' => $this->upload->data('file_name')];
+                    $set = array_merge($set, $new_image);
+                } else {
+
+                    $this->session->set_flashdata('pesan_upload', '<div class="alert alert-danger" role="alert"><h4 class="alert-heading">Upload failed!</h4><p>' . $this->upload->display_errors() . '</p></div>');
+                }
+            }
+            $where = ['nis' => $this->session->userdata('nis')];
+            $this->db->update('siswa', $set, $where);
+            if ($this->db->affected_rows() > 0) {
+                $this->session->set_flashdata('pesan', '<div class="alert alert-success alert-has-icon alert-dismissible fade show" role="alert">
+                    <div class="alert-icon"><i class="fas fa-check-circle"></i></div>
+                    <div class="alert-body">
+                    <div class="alert-title">Berhasil!</div>
+                Profile berhasil diubah!
+                    </div>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>');
+                redirect('pelanggan/profile');
+            } else {
+                redirect('pelanggan/profile');
+            }
+            die;
+
+            // salah
             $email = $this->input->post('email');
             $nama = $this->input->post('nama');
             $no_hp = $this->input->post('no_hp');

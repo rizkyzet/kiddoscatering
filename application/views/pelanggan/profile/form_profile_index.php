@@ -27,11 +27,13 @@
                                     </div>
 
                                     <div class="author-box-description">
-                                        <p><i class="fas fa-envelope"></i> <?= $user['email'] ?>
+                                        <p><strong>NIS : </strong> <?= $user['nis'] ?>
                                             <br />
-                                            <i class="fas fa-phone"></i> <?= $user['no_hp'] ?>
+                                            <strong>Kelas : </strong> <?= $kelas['nama_kelas'] ?>
                                             <br />
-                                            <i class="fas fa-gift"></i> June 02, 1988
+                                            <strong>Alamat : </strong> <?= $user['alamat_siswa'] ?>
+                                            <br />
+                                            <strong>Jenis Kelamin : </strong> <?= $user['jk'] ?>
                                         </p>
                                     </div>
 
