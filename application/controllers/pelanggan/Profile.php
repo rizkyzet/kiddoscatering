@@ -153,7 +153,7 @@ class Profile extends CI_Controller
         $password = $this->input->post('password');
         $password2 = $this->input->post('password2');
 
-        $this->form_validation->set_rules('my_password', 'Password saat ini', [['my_password_check', [$this->Validation_model, 'my_password_check']]]);
+        $this->form_validation->set_rules('my_password', 'Password saat ini', [['my_password_check', [$this->Validation_model, 'my_password_check_siswa']]]);
         $this->form_validation->set_rules('password', 'Password baru', 'required', ['required' => 'Password harus diisi!']);
         $this->form_validation->set_rules('password2', 'Konfirmasi password', 'required|matches[password]', ['required' => 'Password harus diisi!', 'matches' => 'Konfirmasi password tidak cocok!']);
 
@@ -168,9 +168,9 @@ class Profile extends CI_Controller
 
             $hash = password_hash($password, PASSWORD_DEFAULT);
             $set = ['password' => $hash];
-            $where = ['email' => $this->session->userdata('email')];
+            $where = ['nis' => $this->session->userdata('nis')];
 
-            $this->User_model->update_user($set, $where);
+            $this->db->update('siswa', $set, $where);
             $this->session->set_flashdata('pesan', '<div class="alert alert-success alert-has-icon alert-dismissible fade show" role="alert">
             <div class="alert-icon"><i class="fas fa-check-circle"></i></div>
             <div class="alert-body">
