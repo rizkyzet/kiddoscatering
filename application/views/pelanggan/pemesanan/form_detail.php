@@ -95,11 +95,7 @@
                                 <tr class="border">
                                     <td style="width: 30%;" class="border">Status Pembayaran</td>
                                     <td>
-                                        <?php if ($pemesanan['status_pemesanan'] == 'settlement') { ?>
-                                            <span class="badge badge-pill badge-success">Selesai</span>
-                                        <?php } elseif ($pemesanan['status_pemesanan'] == 'pending') { ?>
-                                            <span class="badge badge-pill badge-warning">Menunggu Pembayaran</span>
-                                        <?php } ?>
+                                        <span class="badge badge-pill badge-<?= getWarnaStatusPemesanan($pemesanan['status_pemesanan']) ?>"><?= getStatusPemesananIndo($pemesanan["status_pemesanan"]) ?></span>
                                     </td>
                                 </tr>
                                 <tr class="border">
@@ -152,7 +148,7 @@
                                             <a target="_blank" rel="noopener noreferrer" href="<?= $pemesanan['instruksi'] ?>" class="btn  btn-primary btn-sm btn-block " role="button">Lihat Instruksi</a>
                                         <?php elseif ($pemesanan['status_pemesanan'] == 'settlement') : ?>
                                             <!-- <a target="_blank" rel="noopener noreferrer" href="<?= base_url('pelanggan/pemesanan/print') ?>" class="btn  btn-primary btn-sm btn-block " role="button"> Simpan Bukti Pembayaran</a> -->
-                                            <a target="_blank" rel="noopener noreferrer" href="<?= $pemesanan['instruksi'] ?>" class="btn  btn-primary btn-sm btn-block disabled" role="button">Lihat Instruksi</a>
+                                            <a target="_blank" rel="noopener noreferrer" href="<?= $pemesanan['instruksi'] ?>" class="btn  btn-primary btn-sm btn-block disabled d-none" role="button">Lihat Instruksi</a>
                                         <?php endif; ?>
                                     </td>
                                 </tr>

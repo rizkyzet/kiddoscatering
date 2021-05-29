@@ -201,8 +201,9 @@ class Mycal_model extends CI_Model
 					
 					</select>';
 				} else {
-
+					// jika tgl pesanan kurang dari tanggal sekarang
 					if (strtotime($detail_data['tgl_detail']) <= strtotime(date('Y-m-d '))) {
+						// jika jam sekarang lebih dari jam 8
 						if (time() > strtotime('08:00:00')) {
 
 							$disabled = 'disabled';

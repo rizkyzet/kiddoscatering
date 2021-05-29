@@ -11,6 +11,7 @@
                 <table class="table table-striped table-bordered">
                     <thead>
                         <th>No</th>
+                        <th>No. Pemesanan</th>
                         <th>Info</th>
                         <th>Tanggal Pesan</th>
                         <th>Status Pemesanan</th>
@@ -20,6 +21,7 @@
                     foreach ($pemesanan as $psn) : ?>
                         <tr>
                             <td><?= $no++ ?></td>
+                            <td><?= $psn['no_pemesanan'] ?></td>
                             <td>Catering Bulan <b><?= getMonthIndo(date('F', strtotime($psn['tanggal_mulai']))) ?></b> <b><?= date('Y', strtotime($psn['tanggal_mulai'])) ?><b></td>
                             <td><?= $psn['tanggal_dibuat'] ?></td>
                             <td>
@@ -27,8 +29,10 @@
                                     <div class="badge badge-success">Selesai</div>
                                 <?php } elseif ($psn['status_pemesanan'] == 'pending') { ?>
                                     <div class="badge badge-warning">Menunggu Pembayaran</div>
-                                <?php } elseif ($psn['status_pemesanan'] == 'expired') { ?>
+                                <?php } elseif ($psn['status_pemesanan'] == 'expire') { ?>
                                     <div class="badge badge-danger">Kadaluarsa</div>
+                                <?php } elseif ($psn['status_pemesanan'] == 'cancel') { ?>
+                                    <div class="badge badge-danger">Dibatalkan</div>
                                 <?php } ?>
                             </td>
                             <td>
@@ -54,6 +58,12 @@
                                             <a class="dropdown-item" href="<?= base_url('pelanggan/pemesanan/batalkan_transaksi/' . $psn['no_pemesanan']) ?>" onclick="return confirm('Data akan dihapus?')"><i class="fas fa-fw fa-times"></i> Batalkan Transaksi</a>
 
                                         </div>
+                                    </div>
+                                <?php } else { ?>
+                                    <div class="btn-group">
+                                        <a href="<?= base_url('pelanggan/pemesanan/detail/' . $psn['no_pemesanan']) ?>" class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="top" title="Detail Pemesanan"><i class="fas fa-fw fa-eye"></i></a>
+
+
                                     </div>
                                 <?php } ?>
                         </tr>

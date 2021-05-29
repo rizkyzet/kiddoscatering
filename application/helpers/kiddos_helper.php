@@ -339,3 +339,62 @@ function get_random_numbers($digit)
     $digits = $digit;
     return str_pad(rand(0, pow(10, $digits) - 1), $digits, '0', STR_PAD_LEFT);
 }
+
+
+function getStatusPemesananIndo($status)
+{
+
+
+
+    switch ($status) {
+        case 'settlement':
+            $statusIndo = "Selesai";
+
+            break;
+        case 'pending':
+            $statusIndo = "Menunggu Pembayaran";
+
+            break;
+        case 'expire':
+            $statusIndo = "Kadaluarsa";
+
+            break;
+        case 'cancel':
+            $statusIndo = "Dibatalkan";
+
+            break;
+
+
+
+        default:
+            $statusIndo = "Tidak di ketahui";
+
+            break;
+    }
+
+    return $statusIndo;
+}
+function getWarnaStatusPemesanan($status)
+{
+
+
+
+    switch ($status) {
+        case 'settlement':
+            $warna = "success";
+
+            break;
+        case 'pending':
+            $warna = "warning";
+
+            break;
+
+
+        default:
+            $warna = "danger";
+
+            break;
+    }
+
+    return $warna;
+}

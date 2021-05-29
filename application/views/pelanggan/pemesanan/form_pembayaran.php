@@ -2,7 +2,7 @@
 <div class="main-content">
     <section class="section">
         <div class="section-header">
-            <h1>Blank Page</h1>
+            <h1>Pembayaran bulan <?= getMonthIndo(date('F', strtotime($tanggal_mulai))) ?></h1>
         </div>
 
         <div class="section-body">
@@ -51,7 +51,7 @@
                         <hr>
                         <div class="row mb-3">
                             <div class="col">
-                                <strong>Detail Pemesanan</strong>
+                                <strong>Detail Pemesanan bulan <?= getMonthIndo(date('F', strtotime($tanggal_mulai))) ?></strong>
                             </div>
                         </div>
                         <div class="row overflow-auto">

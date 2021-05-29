@@ -28,7 +28,8 @@ class Pemesanan extends CI_Controller
 
         $data['user'] = $this->User_model->get_user_by_login();
         $this->db->where('nis', $this->session->userdata('nis'));
-        $this->db->where_in('status_pemesanan', ['pending', 'settlement']);
+        // $this->db->where_in('status_pemesanan', ['pending', 'settlement']);
+        $this->db->order_by('tanggal_dibuat', 'DESC');
         $data['pemesanan'] = $this->db->get('pemesanan')->result_array();
         $data['siswa'] = $this->Siswa_model->get_specific_siswa(['nis' => $this->session->userdata('nis')]);
 
@@ -48,18 +49,30 @@ class Pemesanan extends CI_Controller
 
 
         for ($m = 1; $m <= 12; $m++) {
+
+
             $month = date('F', mktime(0, 0, 0, $m, 1, date('Y')));
             $month_number = date('m', mktime(0, 0, 0, $m, 1, date('Y')));
 
-            $cek_bulan = $this->db->get_where('pemesanan', ['month(tanggal_dibuat)' => $month_number, 'year(tanggal_dibuat)' => date('Y'), 'nis' => $this->session->userdata('nis')])->num_rows();
 
-            if ($cek_bulan > 0) {
+            // $cek_bulan = $this->db->get_where('pemesanan', ['month(tanggal_mulai)' => $month_number, 'year(tanggal_mulai)' => date('Y'), 'nis' => $this->session->userdata('nis'), 'status_pemesanan' => 'settlement'])->row_array();
 
-                $tampung_data_bulan[] = ['bulan' => $month, 'status' => 'sudah pesan'];
+            $this->db->where('month(tanggal_mulai)', $month_number);
+            $this->db->where('year(tanggal_mulai)', date('Y'));
+            $this->db->where('nis', $this->session->userdata('nis'));
+            $this->db->where_in('status_pemesanan', ['settlement', 'pending']);
+            $cek_bulan = $this->db->get('pemesanan')->row_array();
+
+            if ($cek_bulan) {
+
+                $tampung_data_bulan[] = ['bulan' => $month, 'status' => $cek_bulan['status_pemesanan']];
+            } elseif ($m <= date('n')) {
+                $tampung_data_bulan[] = ['bulan' => $month, 'status' => 'lewat'];
             } else {
                 $tampung_data_bulan[] = ['bulan' => $month, 'status' => 'belum pesan'];
             }
-        };
+        }
+
         $data['bulan'] = $tampung_data_bulan;
 
         $this->load->view('templates_stisla_dashboard/header', $data);
@@ -76,20 +89,39 @@ class Pemesanan extends CI_Controller
         $data['siswa'] = $this->Siswa_model->get_specific_siswa(['nis' => $this->session->userdata('nis')]);
         $data['combo_kelas'] = $this->Kelas_model->get_combo_kelas();
 
+        if ($month == date('F')) {
 
-        $tahun_now = date('Y');
-        $bulan_now = $month;
-        $tanggal_now = date('d');
+            $tahun_now = date('Y');
+            $bulan_now = $month;
+            $tanggal_now = date('d');
 
-        $tanggal = date('Y-m-d', strtotime("$tanggal_now-$bulan_now-$tahun_now"));
+            $tanggal = date('Y-m-d', strtotime("$tanggal_now-$bulan_now-$tahun_now"));
 
-        if (date('l') == 'Saturday') {
-            $data['tgl_mulai'] = date('Y-m-d', strtotime("$tanggal +2 days"));
-        } elseif (date('l') == 'Friday') {
-            $data['tgl_mulai'] = date('Y-m-d', strtotime("$tanggal +3 days"));
+            if (date('l') == 'Saturday') {
+                $data['tgl_mulai'] = date('Y-m-d', strtotime("$tanggal +2 days"));
+            } elseif (date('l') == 'Friday') {
+                $data['tgl_mulai'] = date('Y-m-d', strtotime("$tanggal +3 days"));
+            } else {
+                $data['tgl_mulai'] = date('Y-m-d', strtotime("$tanggal +1 days"));
+            }
         } else {
-            $data['tgl_mulai'] = date('Y-m-d', strtotime("$tanggal +1 days"));
+            $tahun_now = date('Y');
+            $bulan_now = $month;
+            $tanggal_now = '01';
+
+            $tanggal = date('Y-m-d', strtotime("$tanggal_now-$bulan_now-$tahun_now"));
+
+            if (date('l', strtotime($tanggal)) == 'Saturday') {
+
+                $data['tgl_mulai'] = date('Y-m-d', strtotime("$tanggal +2 days"));
+            } elseif (date('l', strtotime($tanggal)) == 'Sunday') {
+                $data['tgl_mulai'] = date('Y-m-d', strtotime("$tanggal +1 days"));
+            } else {
+                $data['tgl_mulai'] = date('Y-m-d', strtotime("$tanggal"));
+            }
         }
+
+
 
 
 
@@ -110,15 +142,15 @@ class Pemesanan extends CI_Controller
 
         $tanggal_mulai = $this->input->post('tanggal_mulai');
         $pesanan = $this->Pemesanan_model->tampung_pesanan($tanggal_mulai, $this->input->post());
-        $data['tanggal_template'] = $this->Pemesanan_model->template_tanggal();
-        $data['hari_template'] = $this->Pemesanan_model->template_hari();
+
+        $data['tanggal_template'] = $this->Pemesanan_model->template_tanggal(date('m', strtotime($tanggal_mulai)));
+        $data['hari_template'] = $this->Pemesanan_model->template_hari(date('m', strtotime($tanggal_mulai)));
         $data['tanggal_mulai'] = $tanggal_mulai;
         $data['pesanan'] = $pesanan;
         $data['detail_bayar'] = $this->Pemesanan_model->tampung_detail_pembayaran($pesanan);
         $data['no_psn'] = no_pemesanan();
         $data['pesanan_json'] = json_encode($pesanan);
         // $data['hari_template'] = date(strtotime($data['tanggal_template']))
-
         $this->load->view('templates_stisla_dashboard/header', $data);
         $this->load->view('templates_stisla_dashboard/navbar');
         $this->load->view('templates_stisla_dashboard/sidebar_pelanggan');
@@ -130,7 +162,7 @@ class Pemesanan extends CI_Controller
     {
 
 
-        $user = $this->User_model->get_spesific_user(['email' => $this->session->userdata('email')]);
+        $user = $this->User_model->get_user_by_login();
         $tgl_mulai = $this->input->post('tanggal_mulai');
         $total_byr = $this->input->post('total_byr');
         $no_psn = $this->input->post('no_psn');
@@ -155,9 +187,10 @@ class Pemesanan extends CI_Controller
 
         // Optional
         $customer_details = array(
-            'first_name'    => $user['nama'],
-            'email'         => $user['email'],
-            'phone' => $user['no_hp']
+            'first_name'    => $user['nama_siswa'] . ' (' . $user['nis'] . ')',
+            'nis' => $user['nis']
+            // 'email'         => $user['email'],
+            // 'phone' => $user['no_hp']
 
         );
 
@@ -304,7 +337,7 @@ Anda belum melakukan pembayaran, mohon segera dibayar !
 
         if ($this->veritrans->cancel($no_pemesanan) == '200') {
             $this->db->update('pemesanan', ['status_pemesanan' => 'cancel'], ['no_pemesanan' => $no_pemesanan]);
-            $this->db->delete('pemesanan', ['no_pemesanan' => $no_pemesanan]);
+            // $this->db->delete('pemesanan', ['no_pemesanan' => $no_pemesanan]);
             redirect('pelanggan/pemesanan/');
         } else {
 
@@ -314,6 +347,7 @@ Anda belum melakukan pembayaran, mohon segera dibayar !
 
     public function edit($no_pemesanan)
     {
+
         $data['user'] = $this->User_model->get_user_by_login();
         $data['siswa'] = $this->Siswa_model->get_specific_siswa(['nis' => $this->session->userdata('nis')]);
         $data['pemesanan_header'] = $this->Pemesanan_model->get_pemesanan(['no_pemesanan' => $no_pemesanan]);

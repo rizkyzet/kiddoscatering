@@ -5,9 +5,14 @@ class Pemesanan_model extends CI_Model
 
     public function tampung_pesanan($tanggal_mulai, $post)
     {
+        // var_dump($post['tanggal_mulai']);
+        // var_dump(date('Y-m-t', strtotime($post['tanggal_mulai'])));
+        // die;
 
-        $tanggal_pesanan = date_range($tanggal_mulai, date('Y-m-t'));
+        $tanggal_pesanan = date_range($tanggal_mulai, date('Y-m-t', strtotime($post['tanggal_mulai'])));
+
         foreach ($tanggal_pesanan as $tgl) {
+
             if (date('l', strtotime($tgl)) == "Sunday" || date('l', strtotime($tgl)) == "Saturday") {
                 $pesanan[] = ['tanggal' => $tgl, 'pesan' => 'libur'];
             } else {
