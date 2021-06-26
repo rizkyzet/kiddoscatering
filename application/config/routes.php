@@ -55,3 +55,4 @@ $route['translate_uri_dashes'] = FALSE;
 
 $route['pelanggan'] = 'pelanggan/profile';
 $route['admin'] = 'admin/profile';
+$route['pemilik'] = 'pemilik/dashboard';

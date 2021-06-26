@@ -13,18 +13,31 @@ class Jadwal extends CI_Controller
         $month = date('m');
         $type = 'tampil';
         $jadwal = $this->db->get_where('jadwal', ['bulan' => $month, 'tahun' => $year])->row_array();
-        $id_jadwal = $jadwal['id_jadwal'];
+        if ($jadwal) {
 
-        $data['calendar'] = "<tr>
-        <th >Min</th>
-        <th>Sen</th>
-        <th>Sel</th>
-        <th>Rab</th>
-        <th>Kam</th>
-        <th>Jum</th>
-        <th>Sab</th>
-    </tr>";
-        $data['calendar'] .= $this->Mycal_model->getCalendarJadwal($year, $month, $type, $id_jadwal);
+            $id_jadwal = $jadwal['id_jadwal'];
+            $data['calendar'] = "<tr>
+            <th >Min</th>
+            <th>Sen</th>
+            <th>Sel</th>
+            <th>Rab</th>
+            <th>Kam</th>
+            <th>Jum</th>
+            <th>Sab</th>
+        </tr>";
+            $data['calendar'] .= $this->Mycal_model->getCalendarJadwal($year, $month, $type, $id_jadwal);
+        } else {
+            $data['calendar'] = "<tr>
+            <th >Min</th>
+            <th>Sen</th>
+            <th>Sel</th>
+            <th>Rab</th>
+            <th>Kam</th>
+            <th>Jum</th>
+            <th>Sab</th>
+        </tr>";
+            $data['calendar'] .= $this->Mycal_model->getCalendarReg($year, $month);
+        }
 
         $this->load->view('templates_homepage/header', $data);
         $this->load->view('templates_homepage/navbar');

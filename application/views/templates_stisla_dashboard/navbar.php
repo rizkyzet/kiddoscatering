@@ -9,9 +9,9 @@
         </ul>
     </form>
     <ul class="navbar-nav navbar-right">
-        <?php $id_makanan = $this->db->get_where('detail_jadwal', ['tanggal_jadwal' => date('Y-m-d')]);
-        if ($id_makanan->num_rows() > 0) :
-            $today_food = $this->db->get_where('menu_makanan', ['id_makanan' => $id_makanan['id_makanan']])->row_array();
+        <?php $makanan = $this->db->get_where('detail_jadwal', ['tanggal_jadwal' => date('Y-m-d')])->row_array();
+        if ($makanan) :
+            $today_food = $this->db->get_where('menu_makanan', ['id_makanan' => $makanan['id_makanan']])->row_array();
         else :
             $today_food = '';
         endif;

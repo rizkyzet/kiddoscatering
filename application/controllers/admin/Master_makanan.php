@@ -93,8 +93,9 @@ class Master_makanan extends CI_Controller
         $data['makanan'] = $this->Menu_makanan_model->get_specific_makanan($where);
         $data['kategori'] = $this->db->get('kategori')->result_array();
 
+        $is_unique = $this->input->post('nama_makanan') == $data['makanan']['nama_makanan'] ? '' : '|is_unique[menu_makanan.nama_makanan]';
 
-        $this->form_validation->set_rules('nama_makanan', 'Nama Makanan', 'required|trim', ['is_unique' => 'Makanan sudah ada!', 'required' => 'Nama Makanan Harus Diisi!']);
+        $this->form_validation->set_rules('nama_makanan', 'Nama Makanan', 'required|trim' . $is_unique, ['is_unique' => 'Makanan sudah ada!', 'required' => 'Nama Makanan Harus Diisi!']);
         $this->form_validation->set_rules('deskripsi', 'Deskripsi Makanan', 'required|trim', ['required' => 'Deskripsi Harus Diisi!']);
 
         if ($this->form_validation->run() == false) {

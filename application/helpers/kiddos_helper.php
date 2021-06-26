@@ -265,7 +265,6 @@ function is_logged_in()
     if ($ci->session->userdata('email')) {
         if ($ci->uri->segment(2) == 'logout') {
         } else {
-
             if ($ci->session->userdata('role_id') == 1) {
                 redirect('admin');
             } else {

@@ -96,17 +96,32 @@ class Pengiriman extends CI_Controller
     {
         $tanggal = date('Y-m-d');
 
+        // if (date('D', strtotime($tanggal)) == 'Sun' || date('D', strtotime($tanggal)) == 'Sat') {
+        //     echo "<h1>libur</h1>";
+        //     die;
+        // }
+        $data['user'] = $this->User_model->get_user_by_login();
         $data['tanggal'] = $tanggal;
         $data['id_sekolah'] = $id_sekolah;
         // $data['sekolah'] = $this->Sekolah_model->get_all_sekolah();
         $data['kelas'] = $this->Kelas_model->get_spesific_kelas_result(['id_sekolah' => $id_sekolah]);
         $data['menu_hari_ini'] = $this->db->get_where('detail_jadwal', ['tanggal_jadwal' => $tanggal])->row_array();
-        $data['nama_makanan_hari_ini'] = $this->db->get_where('menu_makanan', ['id_makanan' => $data['menu_hari_ini']['id_makanan']])->row_array();
+
+        if ($data['menu_hari_ini']) {
+            $data['nama_makanan_hari_ini'] = $this->db->get_where('menu_makanan', ['id_makanan' => $data['menu_hari_ini']['id_makanan']])->row_array();
+        } else {
+            // echo "<h1>Menu Bulan ini belum ditentukan, Segera Buat Menu Bulan Ini!</h1>";
+            $data['nama_makanan_hari_ini'] = null;
+        }
+
+
+
+
         foreach ($data['kelas'] as $kelas) {
 
-            $where_pagi = ['kelas.id_kelas' => $kelas['id_kelas'], 'detail_pemesanan.tgl_detail' => $tanggal, 'detail_pemesanan.pesan' => 'p'];
-            $where_siang = ['kelas.id_kelas' => $kelas['id_kelas'], 'detail_pemesanan.tgl_detail' => $tanggal, 'detail_pemesanan.pesan' => 's'];
-            $where_dobel = ['kelas.id_kelas' => $kelas['id_kelas'], 'detail_pemesanan.tgl_detail' => $tanggal, 'detail_pemesanan.pesan' => 'ps'];
+            $where_pagi = ['kelas.id_kelas' => $kelas['id_kelas'], 'detail_pemesanan.tgl_detail' => $tanggal, 'detail_pemesanan.pesan' => 'p', 'pemesanan.status_pemesanan' => 'settlement'];
+            $where_siang = ['kelas.id_kelas' => $kelas['id_kelas'], 'detail_pemesanan.tgl_detail' => $tanggal, 'detail_pemesanan.pesan' => 's', 'pemesanan.status_pemesanan' => 'settlement'];
+            $where_dobel = ['kelas.id_kelas' => $kelas['id_kelas'], 'detail_pemesanan.tgl_detail' => $tanggal, 'detail_pemesanan.pesan' => 'ps', 'pemesanan.status_pemesanan' => 'settlement'];
             // jumlah
             $jum_pagi = $this->Pemesanan_model->get_join_pemesananV2_by_num($where_pagi);
             $jum_siang = $this->Pemesanan_model->get_join_pemesananV2_by_num($where_siang);
@@ -123,109 +138,136 @@ class Pengiriman extends CI_Controller
 
         }
 
-        foreach ($data['kelas'] as $kelas) {
-            $data['user'] = $this->User_model->get_user_by_login();
-
-            $where_pagi = ['kelas.id_kelas' => $kelas['id_kelas'], 'detail_pemesanan.tgl_detail' => $tanggal, 'detail_pemesanan.pesan' => 'p', 'ganti_menu.id_makanan' => $data['menu_hari_ini']['id_makanan']];
-            $where_siang = ['kelas.id_kelas' => $kelas['id_kelas'], 'detail_pemesanan.tgl_detail' => $tanggal, 'detail_pemesanan.pesan' => 's', 'ganti_menu.id_makanan' => $data['menu_hari_ini']['id_makanan']];
-            $where_dobel = ['kelas.id_kelas' => $kelas['id_kelas'], 'detail_pemesanan.tgl_detail' => $tanggal, 'detail_pemesanan.pesan' => 'ps', 'ganti_menu.id_makanan' => $data['menu_hari_ini']['id_makanan']];
-            // jumlah
-
-
-            $this->db->select('siswa.nis,siswa.nama_siswa,detail_pemesanan.pesan,detail_pemesanan.tgl_detail,ganti_menu.id_ganti_menu, a.nama_makanan AS menu_tidak_suka , b.nama_makanan AS menu_pengganti ');
-            $this->db->from('sekolah');
-            $this->db->join('kelas', 'kelas.id_sekolah = sekolah.id_sekolah');
-            $this->db->join('siswa', 'siswa.id_kelas = kelas.id_kelas');
-            $this->db->join('pemesanan', 'pemesanan.nis = siswa.nis');
-            $this->db->join('detail_pemesanan', 'detail_pemesanan.no_pemesanan = pemesanan.no_pemesanan');
-            $this->db->join('detail_jadwal', 'detail_jadwal.tanggal_jadwal=detail_pemesanan.tgl_detail');
-            $this->db->join('ganti_menu', 'ganti_menu.nis=siswa.nis');
-            $this->db->join('menu_makanan as a', 'a.id_makanan = ganti_menu.id_makanan', 'inner');
-            $this->db->join('menu_makanan as b', 'b.id_makanan = ganti_menu.id_makanan_pengganti', 'inner');
-
-            $this->db->where($where_pagi);
-            $pagi = $this->db->get()->result_array();
-
-            $this->db->select('siswa.nis,siswa.nama_siswa,detail_pemesanan.pesan,detail_pemesanan.tgl_detail,ganti_menu.id_ganti_menu, a.nama_makanan AS menu_tidak_suka , b.nama_makanan AS menu_pengganti ');
-            $this->db->from('sekolah');
-            $this->db->join('kelas', 'kelas.id_sekolah = sekolah.id_sekolah');
-            $this->db->join('siswa', 'siswa.id_kelas = kelas.id_kelas');
-            $this->db->join('pemesanan', 'pemesanan.nis = siswa.nis');
-            $this->db->join('detail_pemesanan', 'detail_pemesanan.no_pemesanan = pemesanan.no_pemesanan');
-            $this->db->join('detail_jadwal', 'detail_jadwal.tanggal_jadwal=detail_pemesanan.tgl_detail');
-            $this->db->join('ganti_menu', 'ganti_menu.nis=siswa.nis');
-            $this->db->join('menu_makanan as a', 'a.id_makanan = ganti_menu.id_makanan', 'inner');
-            $this->db->join('menu_makanan as b', 'b.id_makanan = ganti_menu.id_makanan_pengganti', 'inner');
-
-            $this->db->where($where_siang);
-            $siang = $this->db->get()->result_array();
-
-            $this->db->select('siswa.nis,siswa.nama_siswa,detail_pemesanan.pesan,detail_pemesanan.tgl_detail,ganti_menu.id_ganti_menu, a.nama_makanan AS menu_tidak_suka , b.nama_makanan AS menu_pengganti ');
-            $this->db->from('sekolah');
-            $this->db->join('kelas', 'kelas.id_sekolah = sekolah.id_sekolah');
-            $this->db->join('siswa', 'siswa.id_kelas = kelas.id_kelas');
-            $this->db->join('pemesanan', 'pemesanan.nis = siswa.nis');
-            $this->db->join('detail_pemesanan', 'detail_pemesanan.no_pemesanan = pemesanan.no_pemesanan');
-            $this->db->join('detail_jadwal', 'detail_jadwal.tanggal_jadwal=detail_pemesanan.tgl_detail');
-            $this->db->join('ganti_menu', 'ganti_menu.nis=siswa.nis');
-            $this->db->join('menu_makanan as a', 'a.id_makanan = ganti_menu.id_makanan', 'inner');
-            $this->db->join('menu_makanan as b', 'b.id_makanan = ganti_menu.id_makanan_pengganti', 'inner');
-
-            $this->db->where($where_dobel);
-            $dobel = $this->db->get()->result_array();
-
-
-            $tampung_catatan_pagi[] = $pagi;
-            $tampung_catatan_siang[] = $siang;
-            $tampung_catatan_dobel[] = $dobel;
-        }
+        //jika hari sabtu atau minggu
+        if (date('D', strtotime($tanggal)) == 'Sun' || date('D', strtotime($tanggal)) == 'Sat') {
+            $data['holiday'] = true;
+            $this->load->view('templates_stisla_dashboard/header', $data);
+            $this->load->view('templates_stisla_dashboard/navbar');
+            $this->load->view('templates_stisla_dashboard/sidebar_admin');
+            $this->load->view('admin/pengiriman/form_data_pengiriman');
+            $this->load->view('templates_stisla_dashboard/footer');
+        } else {
 
 
 
-        // merge jumlah pesanan dengan catatan
-        foreach ($order as $index => $o) {
-            $pengiriman[] = array_merge($o, ['catatan_pagi' => $tampung_catatan_pagi[$index], 'catatan_siang' => $tampung_catatan_siang[$index]]);
+            foreach ($data['kelas'] as $kelas) {
 
-            if ($tampung_catatan_dobel) {
-                foreach ($tampung_catatan_dobel[$index] as $dobel) {
-                    array_push($pengiriman[$index]['catatan_pagi'], $dobel);
-                    array_push($pengiriman[$index]['catatan_siang'], $dobel);
-                }
+
+                $where_pagi = ['kelas.id_kelas' => $kelas['id_kelas'], 'detail_pemesanan.tgl_detail' => $tanggal, 'detail_pemesanan.pesan' => 'p', 'ganti_menu.id_makanan' => $data['menu_hari_ini']['id_makanan']];
+                $where_siang = ['kelas.id_kelas' => $kelas['id_kelas'], 'detail_pemesanan.tgl_detail' => $tanggal, 'detail_pemesanan.pesan' => 's', 'ganti_menu.id_makanan' => $data['menu_hari_ini']['id_makanan']];
+                $where_dobel = ['kelas.id_kelas' => $kelas['id_kelas'], 'detail_pemesanan.tgl_detail' => $tanggal, 'detail_pemesanan.pesan' => 'ps', 'ganti_menu.id_makanan' => $data['menu_hari_ini']['id_makanan']];
+                // jumlah
+
+
+                $this->db->select('siswa.nis,siswa.nama_siswa,detail_pemesanan.pesan,detail_pemesanan.tgl_detail,ganti_menu.id_ganti_menu, a.nama_makanan AS menu_tidak_suka , b.nama_makanan AS menu_pengganti ');
+                $this->db->from('sekolah');
+                $this->db->join('kelas', 'kelas.id_sekolah = sekolah.id_sekolah');
+                $this->db->join('siswa', 'siswa.id_kelas = kelas.id_kelas');
+                $this->db->join('pemesanan', 'pemesanan.nis = siswa.nis');
+                $this->db->join('detail_pemesanan', 'detail_pemesanan.no_pemesanan = pemesanan.no_pemesanan');
+                $this->db->join('detail_jadwal', 'detail_jadwal.tanggal_jadwal=detail_pemesanan.tgl_detail');
+                $this->db->join('ganti_menu', 'ganti_menu.nis=siswa.nis');
+                $this->db->join('menu_makanan as a', 'a.id_makanan = ganti_menu.id_makanan', 'inner');
+                $this->db->join('menu_makanan as b', 'b.id_makanan = ganti_menu.id_makanan_pengganti', 'inner');
+
+                $this->db->where($where_pagi);
+                $pagi = $this->db->get()->result_array();
+
+                $this->db->select('siswa.nis,siswa.nama_siswa,detail_pemesanan.pesan,detail_pemesanan.tgl_detail,ganti_menu.id_ganti_menu, a.nama_makanan AS menu_tidak_suka , b.nama_makanan AS menu_pengganti ');
+                $this->db->from('sekolah');
+                $this->db->join('kelas', 'kelas.id_sekolah = sekolah.id_sekolah');
+                $this->db->join('siswa', 'siswa.id_kelas = kelas.id_kelas');
+                $this->db->join('pemesanan', 'pemesanan.nis = siswa.nis');
+                $this->db->join('detail_pemesanan', 'detail_pemesanan.no_pemesanan = pemesanan.no_pemesanan');
+                $this->db->join('detail_jadwal', 'detail_jadwal.tanggal_jadwal=detail_pemesanan.tgl_detail');
+                $this->db->join('ganti_menu', 'ganti_menu.nis=siswa.nis');
+                $this->db->join('menu_makanan as a', 'a.id_makanan = ganti_menu.id_makanan', 'inner');
+                $this->db->join('menu_makanan as b', 'b.id_makanan = ganti_menu.id_makanan_pengganti', 'inner');
+
+                $this->db->where($where_siang);
+                $siang = $this->db->get()->result_array();
+
+                $this->db->select('siswa.nis,siswa.nama_siswa,detail_pemesanan.pesan,detail_pemesanan.tgl_detail,ganti_menu.id_ganti_menu, a.nama_makanan AS menu_tidak_suka , b.nama_makanan AS menu_pengganti ');
+                $this->db->from('sekolah');
+                $this->db->join('kelas', 'kelas.id_sekolah = sekolah.id_sekolah');
+                $this->db->join('siswa', 'siswa.id_kelas = kelas.id_kelas');
+                $this->db->join('pemesanan', 'pemesanan.nis = siswa.nis');
+                $this->db->join('detail_pemesanan', 'detail_pemesanan.no_pemesanan = pemesanan.no_pemesanan');
+                $this->db->join('detail_jadwal', 'detail_jadwal.tanggal_jadwal=detail_pemesanan.tgl_detail');
+                $this->db->join('ganti_menu', 'ganti_menu.nis=siswa.nis');
+                $this->db->join('menu_makanan as a', 'a.id_makanan = ganti_menu.id_makanan', 'inner');
+                $this->db->join('menu_makanan as b', 'b.id_makanan = ganti_menu.id_makanan_pengganti', 'inner');
+
+                $this->db->where($where_dobel);
+                $dobel = $this->db->get()->result_array();
+
+
+                $tampung_catatan_pagi[] = $pagi;
+                $tampung_catatan_siang[] = $siang;
+                $tampung_catatan_dobel[] = $dobel;
             }
-        };
 
 
-        $data['pengiriman'] = $pengiriman;
 
-        // foreach ($pengiriman as $dta) {
-        //     echo $dta['nama_kelas'] . " pagi " . $dta['pagi'] . " siang " . $dta['siang'] . "<br>";
-        //     foreach ($dta['catatan_pagi'] as $p) {
-        //         echo $p['nama_siswa'] . $p['menu_pengganti'] . "<br>";
-        //     }
-        // }
+            // merge jumlah pesanan dengan catatan
+            foreach ($order as $index => $o) {
+                $pengiriman[] = array_merge($o, ['catatan_pagi' => $tampung_catatan_pagi[$index], 'catatan_siang' => $tampung_catatan_siang[$index]]);
 
-        $this->load->view('templates_stisla_dashboard/header', $data);
-        $this->load->view('templates_stisla_dashboard/navbar');
-        $this->load->view('templates_stisla_dashboard/sidebar_admin');
-        $this->load->view('admin/pengiriman/form_data_pengiriman');
-        $this->load->view('templates_stisla_dashboard/footer');
+                if ($tampung_catatan_dobel) {
+                    foreach ($tampung_catatan_dobel[$index] as $dobel) {
+                        array_push($pengiriman[$index]['catatan_pagi'], $dobel);
+                        array_push($pengiriman[$index]['catatan_siang'], $dobel);
+                    }
+                }
+            };
+
+
+            $data['pengiriman'] = $pengiriman;
+
+            // foreach ($pengiriman as $dta) {
+            //     echo $dta['nama_kelas'] . " pagi " . $dta['pagi'] . " siang " . $dta['siang'] . "<br>";
+            //     foreach ($dta['catatan_pagi'] as $p) {
+            //         echo $p['nama_siswa'] . $p['menu_pengganti'] . "<br>";
+            //     }
+            // }
+
+            $this->load->view('templates_stisla_dashboard/header', $data);
+            $this->load->view('templates_stisla_dashboard/navbar');
+            $this->load->view('templates_stisla_dashboard/sidebar_admin');
+            $this->load->view('admin/pengiriman/form_data_pengiriman');
+            $this->load->view('templates_stisla_dashboard/footer');
+        }
     }
 
     public function get_table_pengiriman()
     {
         $tanggal = $this->input->post('tanggal');
+
+
+        if (date('D', strtotime($tanggal)) == 'Sun' || date('D', strtotime($tanggal)) == 'Sat') {
+            echo json_encode(['status' => 'Holiday', 'htmlEl' => '<h1>Libur</h1>']);
+            die;
+        }
+
         $data['tanggal'] = $tanggal;
         $id_sekolah = $this->input->post('id_sekolah');
         $data['id_sekolah'] = $id_sekolah;
         $data['kelas'] = $this->Kelas_model->get_spesific_kelas_result(['id_sekolah' => $id_sekolah]);
         $data['menu_hari_ini'] = $this->db->get_where('detail_jadwal', ['tanggal_jadwal' => $tanggal])->row_array();
-        $data['nama_makanan_hari_ini'] = $this->db->get_where('menu_makanan', ['id_makanan' => $data['menu_hari_ini']['id_makanan']])->row_array();
+
+        if ($data['menu_hari_ini']) {
+            $data['nama_makanan_hari_ini'] = $this->db->get_where('menu_makanan', ['id_makanan' => $data['menu_hari_ini']['id_makanan']])->row_array();
+        } else {
+            // echo "<h1>Menu Bulan ini belum ditentukan, Segera Buat Menu Bulan Ini!</h1>";
+            echo json_encode(['status' => 'Menu not created', 'htmlEl' => '<h1>Menu Bulan ini belum dibuat, Segera Buat Menu Bulan Ini!</h1>']);
+            die;
+        }
 
         foreach ($data['kelas'] as $kelas) {
 
-            $where_pagi = ['kelas.id_kelas' => $kelas['id_kelas'], 'detail_pemesanan.tgl_detail' => $tanggal, 'detail_pemesanan.pesan' => 'p'];
-            $where_siang = ['kelas.id_kelas' => $kelas['id_kelas'], 'detail_pemesanan.tgl_detail' => $tanggal, 'detail_pemesanan.pesan' => 's'];
-            $where_dobel = ['kelas.id_kelas' => $kelas['id_kelas'], 'detail_pemesanan.tgl_detail' => $tanggal, 'detail_pemesanan.pesan' => 'ps'];
+            $where_pagi = ['kelas.id_kelas' => $kelas['id_kelas'], 'detail_pemesanan.tgl_detail' => $tanggal, 'detail_pemesanan.pesan' => 'p', 'pemesanan.status_pemesanan' => 'settlement'];
+            $where_siang = ['kelas.id_kelas' => $kelas['id_kelas'], 'detail_pemesanan.tgl_detail' => $tanggal, 'detail_pemesanan.pesan' => 's', 'pemesanan.status_pemesanan' => 'settlement'];
+            $where_dobel = ['kelas.id_kelas' => $kelas['id_kelas'], 'detail_pemesanan.tgl_detail' => $tanggal, 'detail_pemesanan.pesan' => 'ps', 'pemesanan.status_pemesanan' => 'settlement'];
             // jumlah
             $jum_pagi = $this->Pemesanan_model->get_join_pemesananV2_by_num($where_pagi);
             $jum_siang = $this->Pemesanan_model->get_join_pemesananV2_by_num($where_siang);
@@ -239,8 +281,10 @@ class Pengiriman extends CI_Controller
             // $pagi = $this->Pemesanan_model->get_join_pemesananV2_by_result($where_pagi);
             // $siang = $this->Pemesanan_model->get_join_pemesananV2_by_result($where_siang);
             // $dobel = $this->Pemesanan_model->get_join_pemesananV2_by_result($where_dobel);
-
         }
+
+
+
 
         foreach ($data['kelas'] as $kelas) {
             $data['user'] = $this->User_model->get_user_by_login();
@@ -330,9 +374,9 @@ class Pengiriman extends CI_Controller
 
         foreach ($data['kelas'] as $kelas) {
 
-            $where_pagi = ['kelas.id_kelas' => $kelas['id_kelas'], 'detail_pemesanan.tgl_detail' => $tanggal, 'detail_pemesanan.pesan' => 'p'];
-            $where_siang = ['kelas.id_kelas' => $kelas['id_kelas'], 'detail_pemesanan.tgl_detail' => $tanggal, 'detail_pemesanan.pesan' => 's'];
-            $where_dobel = ['kelas.id_kelas' => $kelas['id_kelas'], 'detail_pemesanan.tgl_detail' => $tanggal, 'detail_pemesanan.pesan' => 'ps'];
+            $where_pagi = ['kelas.id_kelas' => $kelas['id_kelas'], 'detail_pemesanan.tgl_detail' => $tanggal, 'detail_pemesanan.pesan' => 'p', 'pemesanan.status_pemesanan' => 'settlement'];
+            $where_siang = ['kelas.id_kelas' => $kelas['id_kelas'], 'detail_pemesanan.tgl_detail' => $tanggal, 'detail_pemesanan.pesan' => 's', 'pemesanan.status_pemesanan' => 'settlement'];
+            $where_dobel = ['kelas.id_kelas' => $kelas['id_kelas'], 'detail_pemesanan.tgl_detail' => $tanggal, 'detail_pemesanan.pesan' => 'ps', 'pemesanan.status_pemesanan' => 'settlement'];
             // jumlah
             $jum_pagi = $this->Pemesanan_model->get_join_pemesananV2_by_num($where_pagi);
             $jum_siang = $this->Pemesanan_model->get_join_pemesananV2_by_num($where_siang);
@@ -464,9 +508,9 @@ class Pengiriman extends CI_Controller
         $html = $this->load->view('admin/pengiriman/pengiriman_report', $data, true);
 
         $mpdf = new \Mpdf\Mpdf();
-
+        $mpdf->shrink_tables_to_fit = 1;
         $mpdf->WriteHTML($html);
-        $mpdf->Output();
+        $mpdf->Output('pengiriman.pdf', 'I');
     }
 
     public function tes()

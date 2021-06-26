@@ -42,7 +42,11 @@
                                 <input class="form-control" type="text" name="alamat_siswa">
                                 <?= form_error('alamat_siswa', '<div class="text-danger text-small mb-3">', '</div>') ?>
                             </div>
-
+                            <div class="form-group">
+                                <label for="pwd">Password</label>
+                                <input type="password" name="pwd" id="pwd" class="form-control">
+                                <?= form_error('pwd', '<div class="text-danger text-small">', '</div>') ?>
+                            </div>
                             <div class="form-group">
                                 <label for="jk">Jenis Kelamin</label>
                                 <select name="jk" id="jk" class="form-control">
@@ -50,7 +54,7 @@
                                     <option value="laki-laki" <?= set_select('jk', 'laki-laki') ?>>Laki-laki</option>
                                     <option value="perempuan" <?= set_select('jk', 'perempuan') ?>>Perempuan</option>
                                 </select>
-                                <?= form_error('jk', '<div class="text-danger text-small">', '</dv>') ?>
+                                <?= form_error('jk', '<div class="text-danger text-small">', '</div>') ?>
                             </div>
 
                             <div class="form-group">

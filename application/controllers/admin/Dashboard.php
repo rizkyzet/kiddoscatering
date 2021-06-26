@@ -150,6 +150,9 @@ class Dashboard extends CI_Controller
 
         $data['pie_chart'] = ['pagi' => $pagi, 'siang' => $siang, 'dobel' => $dobel];
 
+
+
+
         $this->load->view('templates_stisla_dashboard/header', $data);
         $this->load->view('templates_stisla_dashboard/navbar');
         $this->load->view('templates_stisla_dashboard/sidebar_admin');

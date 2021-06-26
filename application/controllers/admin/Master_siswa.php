@@ -26,8 +26,29 @@ class Master_siswa extends CI_Controller
         $this->load->view('templates_stisla_dashboard/footer');
     }
 
+
+    public function detail($nis)
+    {
+        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+
+        $this->db->select('*');
+        $this->db->from('siswa');
+        $this->db->join('kelas', 'siswa.id_kelas=kelas.id_kelas');
+        $this->db->join('sekolah', 'kelas.id_sekolah=sekolah.id_sekolah');
+        $this->db->where('siswa.nis', $nis);
+        $data['siswa'] = $this->db->get()->row_array();
+
+        $this->load->view('templates_stisla_dashboard/header', $data);
+        $this->load->view('templates_stisla_dashboard/navbar');
+        $this->load->view('templates_stisla_dashboard/sidebar_admin');
+        $this->load->view('admin/master_siswa/form_detail_siswa');
+        $this->load->view('templates_stisla_dashboard/footer');
+    }
+
+
     public function tambah_siswa()
     {
+
         $data['user'] = $this->User_model->get_spesific_user(['email' => $this->session->userdata('email')]);
         // $data['combobox'] = $this->Kelas_model->get_all_join_sekolah();
         $sekolah = $this->Sekolah_model->get_all_sekolah();
@@ -40,6 +61,7 @@ class Master_siswa extends CI_Controller
         $this->form_validation->set_rules('id_kelas', 'Kelas', 'required|trim');
         $this->form_validation->set_rules('alamat_siswa', 'Alamat', 'required|trim');
         $this->form_validation->set_rules('jk', 'Jenis Kelamin', 'required|trim');
+        $this->form_validation->set_rules('pwd', 'Password', 'required');
 
         if ($this->form_validation->run() == false) {
             $this->load->view('templates_stisla_dashboard/header', $data);
@@ -55,7 +77,8 @@ class Master_siswa extends CI_Controller
                 'id_kelas' => $this->input->post('id_kelas'),
                 'alamat_siswa' => $this->input->post('alamat_siswa'),
                 'jk' => $this->input->post('jk'),
-                'account_id' => 0
+                'account_id' => 0,
+                'password' => password_hash($this->input->post('pwd'), PASSWORD_DEFAULT)
             ];
 
             $this->Siswa_model->insert_siswa($data);
@@ -92,7 +115,7 @@ class Master_siswa extends CI_Controller
             $this->load->view('templates_stisla_dashboard/sidebar_admin');
             $this->load->view('templates_stisla_dashboard/footer');
         } else {
-            die;
+
             $set = [
                 'nis' => $this->input->post('nis'),
                 'nama_siswa' => $this->input->post('nama_siswa'),
@@ -101,6 +124,12 @@ class Master_siswa extends CI_Controller
                 'jk' => $this->input->post('jk'),
                 'account_id' => $this->input->post('account_id')
             ];
+            if (!empty($this->input->post('pwd'))) {
+                $set = array_merge($set, ['password' => password_hash($this->input->post('pwd'), PASSWORD_DEFAULT)]);
+                $pesan = 'Siswa dan password siswa berhasil diubah !';
+            } else {
+                $pesan = 'Siswa berhasil diubah !';
+            }
 
             $where = ['nis' => $nis];
             $this->Siswa_model->update_siswa($set, $where);
@@ -108,7 +137,7 @@ class Master_siswa extends CI_Controller
             <div class="alert-icon"><i class="fas fa-check-circle"></i></div>
             <div class="alert-body">
               <div class="alert-title">Berhasil!</div>
-          Siswa berhasil diubah!
+       ' . $pesan . '
             </div>
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>

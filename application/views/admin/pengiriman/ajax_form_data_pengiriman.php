@@ -15,7 +15,7 @@
                 </tr>
                 <tr class="border">
                     <td style="width: 25%;" class="border">Menu</td>
-                    <td><?= $nama_makanan_hari_ini['nama_makanan'] ?></td>
+                    <td><?= $nama_makanan_hari_ini ? $nama_makanan_hari_ini['nama_makanan'] : 'belum ditentukan' ?></td>
                 </tr>
 
             </tbody>

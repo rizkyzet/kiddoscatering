@@ -62,6 +62,18 @@ class Mycal_model extends CI_Model
         {table_close}{/table_close}
 		';
 	}
+	public function getcalendarReg($year, $month)
+	{
+		$this->load->library('calendar', $this->prefs); // Load calendar library
+		// $data = array(
+		//       3  => 'check',
+		//       7  => 'check1',
+		//       13 => 'bar',
+		//       26 => 'ytr'
+		// );
+
+		return $this->calendar->generate($year, $month);
+	}
 	public function getcalendar($year, $month, $no_pemesanan)
 	{
 		$this->load->library('calendar', $this->prefs); // Load calendar library

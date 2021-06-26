@@ -7,12 +7,13 @@
 
         <div class="section-body">
             <div class="container-fluid">
-                <table class="table">
+                <table class="table datatables">
                     <thead>
                         <tr>
                             <th>No</th>
                             <th>No. Pemesanan</th>
                             <th>NIS</th>
+                            <th>Nama</th>
                             <th>Tanggal dibuat</th>
                             <th>Total Bayar</th>
                             <th>Status Pemesanan</th>
@@ -27,6 +28,7 @@
                                 <td><?= $no++ ?></td>
                                 <td><?= $pemesanan['no_pemesanan'] ?></td>
                                 <td><?= $pemesanan['nis'] ?></td>
+                                <td><?= $pemesanan['nama_siswa'] ?></td>
                                 <td><?= $pemesanan['tanggal_dibuat'] ?></td>
                                 <td><?= $pemesanan['total_bayar'] ?></td>
                                 <td>
@@ -34,8 +36,10 @@
                                         <div class="badge badge-success">Selesai</div>
                                     <?php } elseif ($pemesanan['status_pemesanan'] == 'pending') { ?>
                                         <div class="badge badge-warning">Menunggu Pembayaran</div>
-                                    <?php } elseif ($pemesanan['status_pemesanan'] == 'expired') { ?>
+                                    <?php } elseif ($pemesanan['status_pemesanan'] == 'expire') { ?>
                                         <div class="badge badge-danger">Kadaluarsa</div>
+                                    <?php } elseif ($pemesanan['status_pemesanan'] == 'cancel') { ?>
+                                        <div class="badge badge-danger">Dibatalkan</div>
                                     <?php } ?>
                                 </td>
                                 <td>

@@ -35,7 +35,7 @@
 
                                 <td>
 
-                                    <a href="" class="btn btn-sm btn-success"><i class="fas fa-eye"></i></a>
+                                    <a href="<?= base_url('admin/master_siswa/detail/' . $swa['nis']) ?>" class="btn btn-sm btn-success"><i class="fas fa-eye"></i></a>
                                     <a href="<?= base_url('admin/master_siswa/edit_siswa/' . $swa['nis']) ?>" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></a>
                                     <a href="<?= base_url('admin/master_siswa/delete_siswa/' . $swa['nis']) ?>" class="btn btn-sm btn-danger" onclick="return confirm('Data akan dihapus?')"><i class="fas fa-trash"></i></a>
                                 </td>

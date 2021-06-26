@@ -19,7 +19,11 @@ class Pemesanan extends CI_Controller
     public function data_pemesanan()
     {
         $data['user'] = $this->User_model->get_user_by_login();
-        $data['pemesanan_header'] = $this->Pemesanan_model->get_all_pemesanan();
+        // $data['pemesanan_header'] = $this->Pemesanan_model->get_all_pemesanan();
+        $this->db->select('pemesanan.*,siswa.nama_siswa');
+        $this->db->from('pemesanan');
+        $this->db->join('siswa', 'siswa.nis = pemesanan.nis');
+        $data['pemesanan_header'] = $this->db->get()->result_array();
 
         $this->load->view('templates_stisla_dashboard/header', $data);
         $this->load->view('templates_stisla_dashboard/navbar');

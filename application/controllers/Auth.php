@@ -31,8 +31,6 @@ class Auth extends CI_Controller
             if ($siswa) {
                 // siswa
                 if (password_verify($password, $siswa['password'])) {
-
-
                     $data_session = [
                         'nis' => $siswa['nis'],
                         'role_id' => 2,
@@ -60,6 +58,13 @@ class Auth extends CI_Controller
 
                         $this->session->set_userdata($data_session);
                         redirect('admin/dashboard');
+                    } elseif ($employee['role_id'] == 7) {
+                        $data_session = [
+                            'email' => $employee['email'],
+                            'role_id' => $employee['role_id']
+                        ];
+                        $this->session->set_userdata($data_session);
+                        redirect('pemilik/dashboard');
                     }
                 } else {
                     $this->session->set_flashdata('pesan', '<div class="alert alert-danger alert-dismissible fade show" role="alert">

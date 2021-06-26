@@ -26,6 +26,12 @@
             width: 80px;
             margin-bottom: -15px;
         }
+
+        table {
+            /* page-break-inside: avoid; */
+            /* page-break-before: always; */
+            page-break-inside: avoid;
+        }
     </style>
 </head>
 
@@ -40,11 +46,14 @@
                 <th>Tanggal</th>
                 <td><?= $tanggal ?></td>
             </tr>
+
             <tr>
                 <th style="text-align: left;">Menu</th>
-                <td><?= $nama_makanan_hari_ini['nama_makanan'] ?></td>
+                <td><?= $nama_makanan_hari_ini ? $nama_makanan_hari_ini['nama_makanan'] : 'belum ditentukan' ?></td>
             </tr>
+
         </table>
+
         <br><br>
         <?php foreach ($pengiriman as $data) : ?>
             <table border="1" cellspacing="0" cellpadding="10">

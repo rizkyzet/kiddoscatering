@@ -100,9 +100,9 @@ class Laporan extends CI_Controller
         }
 
         foreach ($range as $rng) {
-            $where_pagi = ['detail_pemesanan.tgl_detail' => $rng, 'detail_pemesanan.pesan' => 'p', 'kelas.id_kelas' => $id_kelas];
-            $where_siang = ['detail_pemesanan.tgl_detail' => $rng, 'detail_pemesanan.pesan' => 's', 'kelas.id_kelas' => $id_kelas];
-            $where_dobel = ['detail_pemesanan.tgl_detail' => $rng, 'detail_pemesanan.pesan' => 'ps', 'kelas.id_kelas' => $id_kelas];
+            $where_pagi = ['detail_pemesanan.tgl_detail' => $rng, 'detail_pemesanan.pesan' => 'p', 'kelas.id_kelas' => $id_kelas, 'pemesanan.status_pemesanan' => 'settlement'];
+            $where_siang = ['detail_pemesanan.tgl_detail' => $rng, 'detail_pemesanan.pesan' => 's', 'kelas.id_kelas' => $id_kelas, 'pemesanan.status_pemesanan' => 'settlement'];
+            $where_dobel = ['detail_pemesanan.tgl_detail' => $rng, 'detail_pemesanan.pesan' => 'ps', 'kelas.id_kelas' => $id_kelas, 'pemesanan.status_pemesanan' => 'settlement'];
             $pagi = $this->Pemesanan_model->get_jumlah_pesanan($where_pagi);
             $siang = $this->Pemesanan_model->get_jumlah_pesanan($where_siang);
             $dobel = $this->Pemesanan_model->get_jumlah_pesanan($where_dobel);
@@ -169,9 +169,9 @@ class Laporan extends CI_Controller
         }
 
         foreach ($range as $rng) {
-            $where_pagi = ['detail_pemesanan.tgl_detail' => $rng, 'detail_pemesanan.pesan' => 'p', 'kelas.id_kelas' => $id_kelas];
-            $where_siang = ['detail_pemesanan.tgl_detail' => $rng, 'detail_pemesanan.pesan' => 's', 'kelas.id_kelas' => $id_kelas];
-            $where_dobel = ['detail_pemesanan.tgl_detail' => $rng, 'detail_pemesanan.pesan' => 'ps', 'kelas.id_kelas' => $id_kelas];
+            $where_pagi = ['detail_pemesanan.tgl_detail' => $rng, 'detail_pemesanan.pesan' => 'p', 'kelas.id_kelas' => $id_kelas, 'pemesanan.status_pemesanan' => 'settlement'];
+            $where_siang = ['detail_pemesanan.tgl_detail' => $rng, 'detail_pemesanan.pesan' => 's', 'kelas.id_kelas' => $id_kelas, 'pemesanan.status_pemesanan' => 'settlement'];
+            $where_dobel = ['detail_pemesanan.tgl_detail' => $rng, 'detail_pemesanan.pesan' => 'ps', 'kelas.id_kelas' => $id_kelas, 'pemesanan.status_pemesanan' => 'settlement'];
             $pagi = $this->Pemesanan_model->get_jumlah_pesanan($where_pagi);
             $siang = $this->Pemesanan_model->get_jumlah_pesanan($where_siang);
             $dobel = $this->Pemesanan_model->get_jumlah_pesanan($where_dobel);
@@ -224,7 +224,7 @@ class Laporan extends CI_Controller
 
 
         $data['user'] = $this->User_model->get_user_by_login();
-        $this->db->select('sekolah.nama_sekolah,siswa.nis,siswa.nama_siswa,kelas.nama_kelas,pemesanan.tanggal_dibayar,pemesanan.total_bayar');
+        $this->db->select('sekolah.nama_sekolah,siswa.nis,siswa.nama_siswa,kelas.nama_kelas,pemesanan.tanggal_dibayar,pemesanan.total_bayar,pemesanan.tanggal_mulai');
         $this->db->from('pemesanan');
         $this->db->join('siswa', 'pemesanan.nis=siswa.nis');
         $this->db->join('kelas', 'siswa.id_kelas=kelas.id_kelas');
@@ -234,11 +234,9 @@ class Laporan extends CI_Controller
         $data['pendapatan'] = $this->db->get()->result_array();
 
         if ($data['pendapatan']) {
-
             foreach ($data['pendapatan'] as $dapat) {
                 $tampung_bayar[] = $dapat['total_bayar'];
             };
-
             $data['total_pendapatan'] = array_sum($tampung_bayar);
         } else {
             $data['total_pendapatan'] = 0;
@@ -253,13 +251,11 @@ class Laporan extends CI_Controller
 
     public function get_table_pendapatan()
     {
-
-
         $tanggal_awal = $this->input->post('tanggal_awal');
         $tanggal_akhir = $this->input->post('tanggal_akhir');
 
         $data['user'] = $this->User_model->get_user_by_login();
-        $this->db->select('sekolah.nama_sekolah,siswa.nis,siswa.nama_siswa,kelas.nama_kelas,pemesanan.tanggal_dibayar,pemesanan.total_bayar');
+        $this->db->select('sekolah.nama_sekolah,siswa.nis,siswa.nama_siswa,kelas.nama_kelas,pemesanan.tanggal_dibayar,pemesanan.total_bayar,pemesanan.tanggal_mulai');
         $this->db->from('pemesanan');
         $this->db->join('siswa', 'pemesanan.nis=siswa.nis');
         $this->db->join('kelas', 'siswa.id_kelas=kelas.id_kelas');
@@ -267,11 +263,12 @@ class Laporan extends CI_Controller
 
         $this->db->where('pemesanan.tanggal_dibayar BETWEEN "' . $tanggal_awal . '" AND "' . $tanggal_akhir . '"');
         $this->db->where('pemesanan.status_pemesanan', 'settlement');
+
         // $this->db->where('pemesanan.tanggal_dibayar >=', $tanggal_awal);
         // $this->db->where('pemesanan.tanggal_dibayar <=', $tanggal_akhir);
+
         $data['pendapatan'] = $this->db->get()->result_array();
         if ($data['pendapatan']) {
-
             foreach ($data['pendapatan'] as $dapat) {
                 $tampung_bayar[] = $dapat['total_bayar'];
             };
@@ -290,7 +287,7 @@ class Laporan extends CI_Controller
         $tanggal_awal = $this->input->post('tanggal_awal');
         $tanggal_akhir = $this->input->post('tanggal_akhir');
 
-        $this->db->select('sekolah.nama_sekolah,siswa.nis,siswa.nama_siswa,kelas.nama_kelas,pemesanan.tanggal_dibayar,pemesanan.total_bayar');
+        $this->db->select('sekolah.nama_sekolah,siswa.nis,siswa.nama_siswa,kelas.nama_kelas,pemesanan.tanggal_dibayar,pemesanan.total_bayar,pemesanan.tanggal_mulai');
         $this->db->from('pemesanan');
         $this->db->join('siswa', 'pemesanan.nis=siswa.nis');
         $this->db->join('kelas', 'siswa.id_kelas=kelas.id_kelas');

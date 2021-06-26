@@ -1,7 +1,7 @@
 <div class="main-sidebar">
     <aside id="sidebar-wrapper">
         <div class="sidebar-brand">
-            <a href="index.html">Kiddos Catering</a>
+            <a href="<?= base_url() ?>">Kiddos Catering</a>
         </div>
         <div class="sidebar-brand sidebar-brand-sm">
             <a href="index.html">Kiddos</a>
@@ -26,6 +26,8 @@
 
             <li class="menu-header">Master</li>
             <li class="">
+
+                <a class="nav-link" href="<?= base_url('admin/master_user') ?>"><i class="fas fa-fw fa-users"></i> <span>Users</span></a>
                 <a class="nav-link" href="<?= base_url('admin/master_sekolah') ?>"><i class="fas fa-fw fa-school"></i> <span>Sekolah</span></a>
                 <a class="nav-link" href="<?= base_url('admin/master_kelas') ?>"><i class="fas fa-fw fa-door-open"></i> <span>Kelas</span></a>
                 <a class="nav-link" href="<?= base_url('admin/master_siswa') ?>"><i class="fas fa-fw fa-user-graduate"></i> <span>Siswa</span></a>

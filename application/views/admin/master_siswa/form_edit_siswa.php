@@ -18,7 +18,7 @@
 
                             <div class="form-group">
                                 <label for="nama_siswa">Nama Siswa</label>
-                                <input class="form-control" type="text" name="nama_siswa" id="nama_siswa" value="<?= form_error('nama_siswa') ? set_value('nama_siswa') : $siswa['nama_siswa'] ?>">
+                                <input class="form-control" type="text" name="nama_siswa" id="nama_siswa" value="<?= set_value('nama_siswa', $siswa['nama_siswa']) ?>">
                                 <?= form_error('nama_siswa', '<div class="text-danger text-small">', '</div>') ?>
                             </div>
 
@@ -43,7 +43,14 @@
                                 <input class="form-control" type="text" name="alamat_siswa" value="<?= $siswa['alamat_siswa'] ?>">
                                 <?= form_error('alamat_siswa', '<div class="text-danger text-small mb-3">', '</div>') ?>
                             </div>
-
+                            <div class="form-group">
+                                <label for="pwd">Password</label>
+                                <input type="password" name="pwd" id="pwd" class="form-control">
+                                <div class="d-flex justify-content-<?= form_error('pwd') ? 'between' : 'end' ?>">
+                                    <?= form_error('pwd', '<div class="text-danger text-small mb-3">', '</div>') ?>
+                                    <div class="text-danger text-small"><em>isi jika ingin diganti !</em></div>
+                                </div>
+                            </div>
                             <div class="form-group">
                                 <label for="jk">Jenis Kelamin</label>
                                 <select name="jk" id="jk" class="form-control" <?= $siswa['jk'] == '' ? 'selected' : '' ?>>

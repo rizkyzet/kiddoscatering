@@ -81,19 +81,19 @@
                                 <canvas id="myChart" height="182"></canvas>
 
                                 <div class="statistic-details mt-sm-4">
-                                    <div class="statistic-details-item">
-                                        <!-- <span class="text-muted"><span class="text-primary"></span>-</span> -->
+                                    <!-- <div class="statistic-details-item">
+                                        <span class="text-muted"><span class="text-primary"></span>-</span>
                                         <div class="detail-value"><?= $jumlah['bulan_kemarin'] ?> Pesanan</div>
                                         <div class="detail-name">Pemesanan Bulan kemarin</div>
-                                    </div>
+                                    </div> -->
                                     <div class="statistic-details-item">
-                                        <?php if ($jumlah['bulan_kemarin']) { ?>
+                                        <!-- <?php if ($jumlah['bulan_kemarin']) { ?>
                                             <?php if ($jumlah['selisih'] < 0) { ?>
                                                 <span class="text-muted"><span class="text-danger"><i class="fas fa-caret-down"></i> </span><?= abs($jumlah['selisih']) ?> pesanan</span>
                                             <?php } else { ?>
                                                 <span class="text-muted"><span class="text-success"><i class="fas fa-caret-up"></i> </span><?= $jumlah['selisih'] ?> pesanan</span>
                                         <?php }
-                                        } ?>
+                                                } ?> -->
                                         <div class="detail-value"><?= $jumlah['bulan_sekarang'] ?> pesanan</div>
                                         <div class="detail-name">Pemesanan Bulan ini</div>
                                     </div>
@@ -117,20 +117,20 @@
                                 <canvas id="chartPendapatan" height="182"></canvas>
 
                                 <div class="statistic-details mt-4">
-                                    <div class="statistic-details-item">
-                                        <!-- <span class="text-muted"><span class="text-primary"></span>-</span> -->
+                                    <!-- <div class="statistic-details-item">
+                                        <span class="text-muted"><span class="text-primary"></span>-</span>
                                         <div class="detail-value"><?= $detail_pendapatan['pendapatan_kemarin'] ?></div>
                                         <div class="detail-name">Pendapatan Bulan kemarin</div>
-                                    </div>
+                                    </div> -->
                                     <div class="statistic-details-item">
-                                        <?php if ($detail_pendapatan['pendapatan_kemarin'] !== null) { ?>
+                                        <!-- <?php if ($detail_pendapatan['pendapatan_kemarin'] !== null) { ?>
                                             <?php if ($detail_pendapatan['persentase_pendapatan'] < 0) { ?>
                                                 <span class="text-muted"><span class="text-danger"><i class="fas fa-caret-down"></i> </span><?= abs($detail_pendapatan['persentase_pendapatan']) ?> %</span>
                                             <?php } else { ?>
                                                 <span class="text-muted"><span class="text-success"><i class="fas fa-caret-up"></i> </span><?= $detail_pendapatan['persentase_pendapatan'] ?> %</span>
                                         <?php }
-                                        } ?>
-                                        <div class="detail-value"><?= $detail_pendapatan['pendapatan_sekarang'] ?></div>
+                                                } ?> -->
+                                        <div class="detail-value"><?= $detail_pendapatan['pendapatan_sekarang'] > 0 ? $detail_pendapatan['pendapatan_sekarang'] : 0 ?></div>
                                         <div class="detail-name">Pendapatan Bulan ini</div>
                                     </div>
 

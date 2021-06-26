@@ -8,7 +8,7 @@
         <div class="section-body">
             <div class="container-fluid">
                 <?= $this->session->flashdata('pesan') ?>
-                <table class="table table-striped table-bordered">
+                <table class="table table-striped table-bordered datatables">
                     <thead>
                         <th>No</th>
                         <th>No. Pemesanan</th>
