@@ -10,7 +10,14 @@ class Dashboard extends CI_Controller
     }
     public function index()
     {
-        var_dump($this->uri->segment(1));
-        var_dump($this->session->userdata());
+        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+
+
+        $this->load->view('templates_stisla_dashboard/header', $data);
+        $this->load->view('templates_stisla_dashboard/navbar');
+        $this->load->view('templates_stisla_dashboard/sidebar_pemilik');
+        $this->load->view('templates_stisla_dashboard/blank');
+        $this->load->view('templates_stisla_dashboard/footer');
+        $this->load->view('templates_stisla_dashboard/js_chartjs');
     }
 }

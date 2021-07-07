@@ -14,7 +14,6 @@ class Jadwal extends CI_Controller
         $type = 'tampil';
         $jadwal = $this->db->get_where('jadwal', ['bulan' => $month, 'tahun' => $year])->row_array();
         if ($jadwal) {
-
             $id_jadwal = $jadwal['id_jadwal'];
             $data['calendar'] = "<tr>
             <th >Min</th>

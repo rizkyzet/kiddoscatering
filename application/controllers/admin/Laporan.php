@@ -12,6 +12,8 @@ class Laporan extends CI_Controller
     }
     public function laporan_pemesanan($id_sekolah)
     {
+        role_logged_in();
+
         $data['id_sekolah'] = $id_sekolah;
         $data['user'] = $this->User_model->get_user_by_login();
         $data['sekolah'] = $this->Sekolah_model->get_specific_sekolahV2(['id_sekolah' => $id_sekolah]);
@@ -56,9 +58,19 @@ class Laporan extends CI_Controller
 
         $data['pemesanan'] = $tampung;
 
+        $pagi = 0;
+        $siang = 0;
+        foreach ($data['jumlah_pagi'] as $index => $p) {
+            $pagi += $p + $data['jumlah_dobel'][$index];
+        }
+
+        foreach ($data['jumlah_siang'] as $index => $s) {
+            $siang += $s + $data['jumlah_dobel'][$index];
+        }
 
 
         $data['col_tanggal'] = $this->Pemesanan_model->template_tanggal_v2();
+        $data['total_order'] = ['pesan' => $pagi + $siang, 'colspan' => count($data['col_tanggal'])];
 
 
         $this->load->view('templates_stisla_dashboard/header', $data);
@@ -118,10 +130,18 @@ class Laporan extends CI_Controller
 
         $data['pemesanan'] = $tampung;
 
+        $pagi = 0;
+        $siang = 0;
+        foreach ($data['jumlah_pagi'] as $index => $p) {
+            $pagi += $p + $data['jumlah_dobel'][$index];
+        }
 
+        foreach ($data['jumlah_siang'] as $index => $s) {
+            $siang += $s + $data['jumlah_dobel'][$index];
+        }
 
         $data['col_tanggal'] = $this->Pemesanan_model->template_tanggal_v2($bulan, $tahun);
-
+        $data['total_order'] = ['pesan' => $pagi + $siang, 'colspan' => count($data['col_tanggal'])];
 
         $this->load->view('admin/laporan/ajax_table_pesanan', $data);
     }
@@ -130,6 +150,7 @@ class Laporan extends CI_Controller
     public function cetak_lap_pemesanan()
     {
 
+        role_logged_in();
 
         $id_sekolah = $this->input->post('id_sekolah');
         $id_kelas = $this->input->post('kelas');
@@ -219,6 +240,9 @@ class Laporan extends CI_Controller
 
     public function laporan_pendapatan($id_sekolah)
     {
+        role_logged_in();
+
+
         $data['tanggal_awal'] = date('Y-m-01');
         $data['tanggal_akhir'] = date('Y-m-t');
 
@@ -282,6 +306,8 @@ class Laporan extends CI_Controller
 
     public function cetak_lap_pendapatan()
     {
+        role_logged_in();
+
         $mpdf = new \Mpdf\Mpdf();
 
         $tanggal_awal = $this->input->post('tanggal_awal');

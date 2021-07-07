@@ -103,7 +103,10 @@
                                     <td class="border text-small"><?= $siang + $jumlah_dobel[$index] ?></td>
                                 <?php endforeach; ?>
                             </tr>
-
+                            <tr>
+                                <th colspan="3" class="text-center border">Total Order</th>
+                                <td colspan="<?= $total_order['colspan'] ?>" class="text-center"><?= $total_order['pesan'] ?></td>
+                            </tr>
                         </tbody>
 
                     </table>

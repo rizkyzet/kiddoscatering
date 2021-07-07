@@ -17,7 +17,8 @@
                 <a class="nav-item nav-link active" href="<?= base_url('home') ?>">Beranda <span class="sr-only">(current)</span></a>
                 <a class="nav-item nav-link" href="<?= base_url('menu') ?>">Menu kita</a>
                 <a class="nav-item nav-link" href="<?= base_url('jadwal') ?>">Jadwal</a>
-                <a class="nav-item nav-link " href="#">Tentang Kami</a>
+                <!-- <a class="nav-item nav-link " href="#">Tentang Kami</a> -->
+                <a href="<?= base_url('pesanan') ?>" class="nav-item nav-link">Pesanan</a>
                 <?php if ($this->session->userdata('email') or $this->session->userdata('nis')) { ?>
                     <div class="dropdown mt-1">
 

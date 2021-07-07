@@ -318,10 +318,10 @@ $(document).ready(function () {
 			}
 
 		})
-
 	})
-
 })
+
+
 
 $(document).ready(function () {
 	$('.datatables').dataTable({
