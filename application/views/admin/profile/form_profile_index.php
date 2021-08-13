@@ -31,7 +31,7 @@
                                             <br />
                                             <i class="fas fa-phone"></i> <?= $user['no_hp'] ?>
                                             <br />
-                                            <i class="fas fa-gift"></i> June 02, 1988
+
                                         </p>
                                     </div>
 

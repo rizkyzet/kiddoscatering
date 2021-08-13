@@ -28,7 +28,7 @@
                                             </a>
                                         <?php } elseif ($bln['status'] == 'pending') { ?>
                                             <a href="<?= base_url('pelanggan/pemesanan/buat/' . $bln['bulan']) ?>" class="btn btn-sm btn-warning btn-block disabled">
-                                                <i class="fas fa-shopping-cart"></i><span> Menunggu Pembayaran</span>
+                                                <i class="fas fa-shopping-cart"></i><span> Pending</span>
                                             </a>
                                         <?php } elseif ($bln['status'] == 'settlement') { ?>
                                             <a href="<?= base_url('pelanggan/pemesanan/buat/' . $bln['bulan']) ?>" class="btn btn-sm btn-success btn-block disabled">

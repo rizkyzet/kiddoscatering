@@ -2,7 +2,7 @@
 <div class="jumbotron jumbotron-fluid">
     <div class="container">
         <!-- <h1 class="display-4">Get work done <span>faster</span><br> and <span>better </span>with us</h1> -->
-        <h1 class="display-4">Sehat Makan nya<br>Banyak Untungnya.</h1>
+        <h1 class="display-4">Selamat Datang di<br>Website Kiddos Catering.</h1>
         <!-- <a href="" class="btn btn-primary tombol">Lihat Menu</a> -->
     </div>
 </div>

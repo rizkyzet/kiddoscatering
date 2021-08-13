@@ -20,6 +20,7 @@ class Profile extends CI_Controller
     {
 
         $data['user'] = $this->User_model->get_user_by_login();
+
         $data['kelas'] = $this->db->get_where('kelas', ['id_kelas' => $data['user']['id_kelas']])->row_array();
         $this->load->view('templates_stisla_dashboard/header', $data);
         $this->load->view('templates_stisla_dashboard/navbar');

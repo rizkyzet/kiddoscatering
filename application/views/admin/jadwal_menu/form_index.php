@@ -8,10 +8,10 @@
         <div class="section-body">
             <div class="container-fluid">
                 <?= $this->session->flashdata('pesan') ?>
-                <a href="<?= base_url('admin/jadwal_menu/buat_jadwal') ?>" class="btn btn-primary btn-sm">Buat Jadwal</a>
+                <a href="<?= base_url('admin/jadwal_menu/buat_jadwal') ?>" class="btn btn-primary btn-sm mb-3">Buat Jadwal</a>
 
 
-                <table class="table mt-3">
+                <table class="table mt-3 datatables">
                     <thead>
                         <tr>
                             <th>No</th>

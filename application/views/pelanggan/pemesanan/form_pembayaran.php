@@ -109,6 +109,7 @@
                                 <div class="col">
                                     <strong>Detail Pembayaran</strong>
                                 </div>
+
                             </div>
                             <hr>
                             <div class="row mt-3">
@@ -120,11 +121,6 @@
                                 <div class="col">Bayar Siang</div>
                                 <div class="col">(Rp.12000 x <?= $detail_bayar['siang'] ?>)</div>
                                 <div class="col"><strong>Rp. <?= $detail_bayar['byr_siang'] ?></strong></div>
-                            </div>
-                            <div class="row">
-                                <div class="col">Bayar Dobel</div>
-                                <div class="col">(Rp.24000 x <?= $detail_bayar['dobel'] ?>)</div>
-                                <div class="col"><strong>Rp. <?= $detail_bayar['byr_dobel'] ?></strong></div>
                             </div>
                             <hr>
                             <div class="row ">

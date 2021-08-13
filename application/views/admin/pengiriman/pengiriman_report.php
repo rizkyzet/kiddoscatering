@@ -52,6 +52,11 @@
                 <td><?= $nama_makanan_hari_ini ? $nama_makanan_hari_ini['nama_makanan'] : 'belum ditentukan' ?></td>
             </tr>
 
+            <tr>
+                <th style="text-align: left;">Sekolah</th>
+                <td><?= $sekolah['nama_sekolah'] ?></td>
+            </tr>
+
         </table>
 
         <br><br>

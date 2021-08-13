@@ -28,4 +28,11 @@ class User_model extends CI_Model
             return $query;
         }
     }
+
+    public function get_role_name($role)
+    {
+        $query = $this->db->get_where('user_role', ['id' => $role])->row_array();
+
+        return $query['role'];
+    }
 }

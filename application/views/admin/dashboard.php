@@ -130,7 +130,7 @@
                                                 <span class="text-muted"><span class="text-success"><i class="fas fa-caret-up"></i> </span><?= $detail_pendapatan['persentase_pendapatan'] ?> %</span>
                                         <?php }
                                                 } ?> -->
-                                        <div class="detail-value"><?= $detail_pendapatan['pendapatan_sekarang'] > 0 ? $detail_pendapatan['pendapatan_sekarang'] : 0 ?></div>
+                                        <div class="detail-value">Rp. <?= $detail_pendapatan['pendapatan_sekarang'] > 0 ? $detail_pendapatan['pendapatan_sekarang'] : 0 ?></div>
                                         <div class="detail-name">Pendapatan Bulan ini</div>
                                     </div>
 

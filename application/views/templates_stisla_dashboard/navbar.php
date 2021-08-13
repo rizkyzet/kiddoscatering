@@ -18,7 +18,7 @@
 
         ?>
         <li class="nav-item">
-            <a href="#" data-toggle="dropdown" class="nav-link nav-link-lg nav-link-user ">
+            <a href="<?= base_url('jadwal') ?>" data-toggle="dropdown" class="nav-link nav-link-lg nav-link-user ">
                 <i class="fas fa-fw fa-utensils"></i>
                 <div class="d-sm-none d-lg-inline-block">
                     <?php if (date('l') == 'Sunday' or date('l') == 'Saturday') : ?>
@@ -40,13 +40,11 @@
                 <div class="d-sm-none d-lg-inline-block">Hi, <?= $this->session->userdata('role_id') == 2 ? $user['nama_siswa'] : $user['nama'] ?></div>
             </a>
             <div class="dropdown-menu dropdown-menu-right">
-
-                <a href="features-profile.html" class="dropdown-item has-icon">
+                <?php $roleName = strtolower($this->User_model->get_role_name($this->session->userdata('role_id'))) ?>
+                <a href="<?= base_url($roleName . '/profile') ?>" class="dropdown-item has-icon">
                     <i class="far fa-user"></i> Profile
                 </a>
-                <a href="features-settings.html" class="dropdown-item has-icon">
-                    <i class="fas fa-cog"></i> Settings
-                </a>
+
                 <div class="dropdown-divider"></div>
                 <a href="<?= base_url('auth/logout') ?>" class="dropdown-item has-icon text-danger">
                     <i class="fas fa-sign-out-alt"></i> Logout

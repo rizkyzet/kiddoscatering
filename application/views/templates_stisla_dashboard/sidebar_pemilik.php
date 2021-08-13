@@ -1,7 +1,7 @@
 <div class="main-sidebar">
     <aside id="sidebar-wrapper">
         <div class="sidebar-brand">
-            <a href="<?= base_url() ?>">Kiddos Catering</a>
+            <a href=<?= base_url('pemilik/dashboard') ?>>Kiddos Catering</a>
         </div>
         <div class="sidebar-brand sidebar-brand-sm">
             <a href="index.html">Kiddos</a>

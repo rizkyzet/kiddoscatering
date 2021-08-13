@@ -17,7 +17,7 @@
                                 <div class="form-group">
                                     <label for="email">ID</label>
                                     <input id="email" type="text" class="form-control" name="id" value="<?= set_value('email') ?>" autofocus>
-                                    <?= form_error('email', '<div class="text-danger text-small">', '</div>') ?>
+                                    <?= form_error('id', '<div class="text-danger text-small">', '</div>') ?>
                                 </div>
 
                                 <div class="form-group">
@@ -33,12 +33,12 @@
                             </form>
                         </div>
                     </div>
-                    <div class="text-muted text-center">
+                    <!-- <div class="text-muted text-center">
                         Belum punya akun? <a href="<?= base_url('auth/register') ?>">Daftar!</a>
                     </div>
                     <div class="text-center">
                         <a href="<?= base_url('auth/forgot_password') ?>">Lupa password</a>
-                    </div>
+                    </div> -->
 
                 </div>
             </div>

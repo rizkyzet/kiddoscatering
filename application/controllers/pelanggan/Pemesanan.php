@@ -26,6 +26,7 @@ class Pemesanan extends CI_Controller
     public function index()
     {
 
+
         $data['user'] = $this->User_model->get_user_by_login();
         $this->db->where('nis', $this->session->userdata('nis'));
         // $this->db->where_in('status_pemesanan', ['pending', 'settlement']);
@@ -42,6 +43,7 @@ class Pemesanan extends CI_Controller
 
     public function daftar()
     {
+
         $data['user'] = $this->User_model->get_user_by_login();
 
         $data['siswa'] = $this->Siswa_model->get_specific_siswa(['nis' => $this->session->userdata('nis')]);
@@ -63,10 +65,14 @@ class Pemesanan extends CI_Controller
             $this->db->where_in('status_pemesanan', ['settlement', 'pending']);
             $cek_bulan = $this->db->get('pemesanan')->row_array();
 
+            // jika ada pemesanan
             if ($cek_bulan) {
-
                 $tampung_data_bulan[] = ['bulan' => $month, 'status' => $cek_bulan['status_pemesanan']];
-            } elseif ($m <= date('n')) {
+                // jika bulan yang dilooping kurang dari bulan sekarang
+            } elseif ($m < date('n')) {
+                $tampung_data_bulan[] = ['bulan' => $month, 'status' => 'lewat'];
+                // jika bulan yang dilooping sama dengan bulan saat ini dan tanggal ssat ini lebih dari tanggal 15
+            } elseif ($m == date('n') && date('d') >= '15') {
                 $tampung_data_bulan[] = ['bulan' => $month, 'status' => 'lewat'];
             } else {
                 $tampung_data_bulan[] = ['bulan' => $month, 'status' => 'belum pesan'];
@@ -134,11 +140,8 @@ class Pemesanan extends CI_Controller
 
     public function pembayaran()
     {
-
-
         $data['user'] = $this->User_model->get_user_by_login();
         $data['siswa'] = $this->Siswa_model->get_siswa_join_kelas_sekolah(['siswa.nis' => $this->session->userdata('nis')]);
-
 
         $tanggal_mulai = $this->input->post('tanggal_mulai');
         $pesanan = $this->Pemesanan_model->tampung_pesanan($tanggal_mulai, $this->input->post());
@@ -241,6 +244,7 @@ class Pemesanan extends CI_Controller
         $data_pemesanan = [
             'no_pemesanan' => $no_pesanan,
             'nis' => $this->session->userdata('nis'),
+            'tipe' => 'bulanan',
             'jenis_pembayaran' => $result['payment_type'],
             'bank' => $result['va_numbers'][0]['bank'],
             'va_number' => $result['va_numbers'][0]['va_number'],
@@ -397,5 +401,75 @@ Pesanan tanggal ' . date('d', strtotime($tanggal)) . ' Berhasil Diubah !
                 <span aria-hidden="true">&times;</span>
             </button>
         </div>');
+    }
+
+
+
+
+
+
+
+    // harian
+    public function pesan_harian()
+    {
+
+        $data['user'] = $this->User_model->get_user_by_login();
+        $data['siswa'] = $this->Siswa_model->get_specific_siswa(['nis' => $this->session->userdata('nis')]);
+        $data['kelas'] = $this->db->get_where('kelas', ['id_kelas' => $data['siswa']['id_kelas']])->row_array();
+        $data['sekolah'] = $this->db->get_where('sekolah', ['id_sekolah' => $data['kelas']['id_sekolah']])->row_array();
+        $data['combo_kelas'] = $this->Kelas_model->get_combo_kelas();
+
+
+
+
+        $this->form_validation->set_rules('tanggal_pesan', 'Tanggal Pesan', 'callback_tgl_pesan');
+
+        if ($this->form_validation->run() == false) {
+
+            $this->load->view('templates_stisla_dashboard/header', $data);
+            $this->load->view('templates_stisla_dashboard/navbar');
+            $this->load->view('templates_stisla_dashboard/sidebar_pelanggan');
+            $this->load->view('pelanggan/pemesanan/form_buat_harian');
+            $this->load->view('templates_stisla_dashboard/footer');
+        } else {
+            $data['tanggal_pesan'] = $this->input->post('tanggal_pesan');
+            $data['waktu_pesan'] = $this->input->post('waktu_pesan');
+            $this->load->view('templates_stisla_dashboard/header', $data);
+            $this->load->view('templates_stisla_dashboard/navbar');
+            $this->load->view('templates_stisla_dashboard/sidebar_pelanggan');
+            $this->load->view('pelanggan/pemesanan/form_rincian_harian');
+            $this->load->view('templates_stisla_dashboard/footer');
+        }
+    }
+
+    // FORM VALIDATION
+    public function tgl_pesan($value)
+    {
+        if ($value == '') {
+            $this->form_validation->set_message('tgl_pesan', 'tanggal belum diisi!');
+            return false;
+        } else {
+            $this->db->select('*');
+            $this->db->from('detail_pemesanan');
+            $this->db->join('pemesanan', 'detail_pemesanan.no_pemesanan=pemesanan.no_pemesanan');
+            $this->db->join('siswa', 'pemesanan.nis=siswa.nis');
+            $this->db->where(['pemesanan.nis' => $this->session->userdata('nis'), 'tgl_detail' => $value]);
+            $apakahAdaPesanan = $this->db->get()->result_array();
+
+            if ($apakahAdaPesanan) {
+                $this->form_validation->set_message('tgl_pesan', 'Anda sudah memesan di tanggal ' . $value);
+                return false;
+            } else {
+                if (strtotime(date('Y-m-d')) > strtotime($value)) {
+                    $this->form_validation->set_message('tgl_pesan', 'Tanggal sudah lewat!');
+                    return false;
+                } else {
+                    if (date('Y-m-d') == $value && date('H') > 8) {
+                        $this->form_validation->set_message('tgl_pesan', 'Jam sudah lewat!');
+                        return false;
+                    }
+                }
+            }
+        }
     }
 }

@@ -225,10 +225,11 @@ class Mycal_model extends CI_Model
 					} else {
 						$disabled = '';
 					}
+
 					$data = '   <select ' . $disabled . ' name="' . $detail_data['tgl_detail'] . '"  id="' . $detail_data['id'] . '" class="form-control comboEditPemesanan" data-tanggal="' . $detail_data['tgl_detail'] . '" data-no_pemesanan="' . $no_pemesanan . '">
 	<option value="p" ' . $selected_pagi . '>Pagi</option> 
 	<option value="s" ' . $selected_siang . '>Siang</option>
-	<option value="ps" disabled ' . $selected_dobel . '>Dobel</option>
+	
 	
 	</select>';
 				}

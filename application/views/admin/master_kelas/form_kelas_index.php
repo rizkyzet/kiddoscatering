@@ -16,8 +16,8 @@
                             <th>No</th>
                             <th>Nama Sekolah</th>
                             <th>Nama Kelas</th>
-                            <th>Wali Kelas</th>
-                            <th>No. telp wali kelas</th>
+                            <!-- <th>Wali Kelas</th>
+                            <th>No. telp wali kelas</th> -->
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -30,12 +30,12 @@
                                 <td><?= $no++ ?></td>
                                 <td><?= $kls['nama_sekolah'] ?></td>
                                 <td><?= $kls['nama_kelas'] ?></td>
-                                <td><?= $kls['wali_kelas'] ?></td>
-                                <td><?= $kls['kontak_wali_kelas'] ?></td>
+                                <!-- <td><?= $kls['wali_kelas'] ?></td>
+                                <td><?= $kls['kontak_wali_kelas'] ?></td> -->
 
                                 <td>
 
-                                    <a href="" class="btn btn-sm btn-success"><i class="fas fa-eye"></i></a>
+                                    <!-- <a href="" class="btn btn-sm btn-success"><i class="fas fa-eye"></i></a> -->
                                     <a href="<?= base_url('admin/master_kelas/edit_kelas/' . $kls['id_kelas']) ?>" class="btn btn-sm btn-primary"><i class="fas fa-edit"></i></a>
                                     <a href="<?= base_url('admin/master_kelas/delete_kelas/' . $kls['id_kelas']) ?>" class="btn btn-sm btn-danger" onclick="return confirm('Data akan dihapus?')"><i class="fas fa-trash"></i></a>
                                 </td>

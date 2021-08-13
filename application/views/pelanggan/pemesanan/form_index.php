@@ -12,6 +12,7 @@
                     <thead>
                         <th>No</th>
                         <th>No. Pemesanan</th>
+                        <th>Tipe Pesanan</th>
                         <th>Info</th>
                         <th>Tanggal Pesan</th>
                         <th>Status Pemesanan</th>
@@ -22,6 +23,7 @@
                         <tr>
                             <td><?= $no++ ?></td>
                             <td><?= $psn['no_pemesanan'] ?></td>
+                            <td><?= $psn['tipe'] ?></td>
                             <td>Catering Bulan <b><?= getMonthIndo(date('F', strtotime($psn['tanggal_mulai']))) ?></b> <b><?= date('Y', strtotime($psn['tanggal_mulai'])) ?><b></td>
                             <td><?= $psn['tanggal_dibuat'] ?></td>
                             <td>

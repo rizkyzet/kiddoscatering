@@ -73,6 +73,7 @@ class Master_siswa extends CI_Controller
 
             $data = [
                 'nis' => $this->input->post('nis'),
+                'image' => 'default.png',
                 'nama_siswa' => $this->input->post('nama_siswa'),
                 'id_kelas' => $this->input->post('id_kelas'),
                 'alamat_siswa' => $this->input->post('alamat_siswa'),

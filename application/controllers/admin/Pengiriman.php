@@ -107,13 +107,15 @@ class Pengiriman extends CI_Controller
         $data['kelas'] = $this->Kelas_model->get_spesific_kelas_result(['id_sekolah' => $id_sekolah]);
         $data['menu_hari_ini'] = $this->db->get_where('detail_jadwal', ['tanggal_jadwal' => $tanggal])->row_array();
 
+
+
         if ($data['menu_hari_ini']) {
             $data['nama_makanan_hari_ini'] = $this->db->get_where('menu_makanan', ['id_makanan' => $data['menu_hari_ini']['id_makanan']])->row_array();
         } else {
             // echo "<h1>Menu Bulan ini belum ditentukan, Segera Buat Menu Bulan Ini!</h1>";
-            $data['nama_makanan_hari_ini'] = null;
+            alert('Pengiriman error!, Menu belum ditentukan!, silahkan buat jadwal menu terlebih dahulu', 'fail');
+            redirect('admin/jadwal_menu');
         }
-
 
 
 
@@ -147,7 +149,7 @@ class Pengiriman extends CI_Controller
             $this->load->view('admin/pengiriman/form_data_pengiriman');
             $this->load->view('templates_stisla_dashboard/footer');
         } else {
-
+            $data['holiday'] = false;
 
 
             foreach ($data['kelas'] as $kelas) {
@@ -371,6 +373,8 @@ class Pengiriman extends CI_Controller
         $data['kelas'] = $this->Kelas_model->get_spesific_kelas_result(['id_sekolah' => $id_sekolah]);
         $data['menu_hari_ini'] = $this->db->get_where('detail_jadwal', ['tanggal_jadwal' => $tanggal])->row_array();
         $data['nama_makanan_hari_ini'] = $this->db->get_where('menu_makanan', ['id_makanan' => $data['menu_hari_ini']['id_makanan']])->row_array();
+        $data['sekolah'] = $this->db->get_where('sekolah', ['id_sekolah' => $id_sekolah])->row_array();
+
 
         foreach ($data['kelas'] as $kelas) {
 

@@ -1,7 +1,7 @@
 <div class="main-sidebar">
     <aside id="sidebar-wrapper">
         <div class="sidebar-brand">
-            <a href="index.html">Kiddos Catering</a>
+            <a href="<?= base_url('pelanggan/dashboard') ?>">Kiddos Catering</a>
         </div>
         <div class="sidebar-brand sidebar-brand-sm">
             <a href="index.html">Kiddos</a>
@@ -36,7 +36,10 @@
                 <a class="nav-link" href="<?= base_url('pelanggan/pemesanan') ?>"><i class="fas fa-fw fa-utensils"></i><span>Pesanan saya</span></a>
             </li>
             <li class="">
-                <a class="nav-link" href="<?= base_url('pelanggan/pemesanan/daftar') ?>"><i class="fas fa-fw fa-utensils"></i><span>Pesan Catering</span></a>
+                <a class="nav-link" href="<?= base_url('pelanggan/pemesanan/daftar') ?>"><i class="fas fa-fw fa-utensils"></i><span>Pesan Bulanan</span></a>
+            </li>
+            <li class="">
+                <a class="nav-link" href="<?= base_url('pelanggan/pemesanan/pesan_harian') ?>"><i class="fas fa-fw fa-utensils"></i><span>Pesan Harian</span></a>
             </li>
 
 

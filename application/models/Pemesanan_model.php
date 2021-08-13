@@ -267,4 +267,15 @@ class Pemesanan_model extends CI_Model
     {
         return $this->db->get('pemesanan')->result_array();
     }
+
+    public function get_detail_pemesanan_siswa()
+    {
+        $this->db->select('*');
+        $this->db->from('detail_pemesanan');
+        $this->db->join('pemesanan', 'detail_pemesanan.no_pemesanan=pemesanan.no_pemesanan');
+        $this->db->join('siswa', 'pemesanan.nis=siswa.nis');
+        $cek = $this->db->get()->result_array();
+
+        return $cek;
+    }
 }

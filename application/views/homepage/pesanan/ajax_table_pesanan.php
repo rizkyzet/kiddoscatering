@@ -16,7 +16,7 @@
                 <td><?= $order['nis'] ?></td>
                 <td><?= $order['nama_siswa'] ?></td>
                 <td><?= $order['nama_kelas'] ?></td>
-                <td><?= $order['pesan']  ?></td>
+                <td><strong><?= $order['pesan'] ? $order['pesan'] : '-' ?></strong></td>
             </tr>
         <?php endforeach; ?>
     </tbody>

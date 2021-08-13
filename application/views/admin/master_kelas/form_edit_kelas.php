@@ -28,7 +28,7 @@
                                 <?= form_error('nama_kelas', '<div class="text-danger text-small">', '</div>') ?>
                             </div>
 
-                            <div class="form-group">
+                            <!-- <div class="form-group">
                                 <label for="wali_kelas">Wali Kelas</label>
                                 <input class="form-control" type="text" name="wali_kelas" value="<?= $kelas['wali_kelas'] ?>">
                                 <?= form_error('wali_kelas', '<div class="text-danger text-small">', '</div>') ?>
@@ -38,7 +38,7 @@
                                 <label for="kontak_wali_kelas">Kontak Wali Kelas</label>
                                 <input type="text" name="kontak_wali_kelas" class="form-control" value="<?= $kelas['kontak_wali_kelas'] ?>">
                                 <?= form_error('kontak_wali_kelas', '<div class="text-danger text-small">', '</div>') ?>
-                            </div>
+                            </div> -->
 
                             <div class="form-group">
                                 <button type="submit" class="btn btn-primary">Simpan</button>

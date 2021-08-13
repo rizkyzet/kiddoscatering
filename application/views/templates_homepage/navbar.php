@@ -30,6 +30,8 @@
                                 <a class="dropdown-item has-icon " href="http://localhost/kiddoscatering/admin/dashboard"><span>Dashboard</span></a>
                             <?php } elseif ($this->session->userdata('role_id') == 2) { ?>
                                 <a class="dropdown-item has-icon " href="http://localhost/kiddoscatering/pelanggan/dashboard"><span>Dashboard</span></a>
+                            <?php } elseif ($this->session->userdata('role_id') == 7) { ?>
+                                <a class="dropdown-item has-icon " href="http://localhost/kiddoscatering/pemilik/dashboard"><span>Dashboard</span></a>
                             <?php } ?>
                             <div class="dropdown-divider"></div>
                             <a href="<?= base_url('auth/logout') ?>" class="dropdown-item has-icon text-danger">
@@ -38,7 +40,6 @@
                         </div>
                     </div>
                 <?php } else { ?>
-
                     <a class="nav-item nav-link " href="<?= base_url('auth') ?>">Login</a>
                 <?php } ?>
 

@@ -36,8 +36,8 @@ class Master_kelas extends CI_Controller
 
         $this->form_validation->set_rules('sekolah', 'Sekolah', 'required');
         $this->form_validation->set_rules('nama_kelas', 'Nama Kelas', 'required');
-        $this->form_validation->set_rules('wali_kelas', 'Wali Kelas', 'required');
-        $this->form_validation->set_rules('kontak_wali_kelas', 'Kontak', 'required');
+        // $this->form_validation->set_rules('wali_kelas', 'Wali Kelas', 'required');
+        // $this->form_validation->set_rules('kontak_wali_kelas', 'Kontak', 'required');
 
         if ($this->form_validation->run() == false) {
 
@@ -49,9 +49,9 @@ class Master_kelas extends CI_Controller
         } else {
             $data = [
                 'id_sekolah' => $sekolah,
-                'nama_Kelas' => $nama_kelas,
-                'wali_kelas' => $wali_kelas,
-                'kontak_wali_kelas' => $kontak
+                'nama_Kelas' => $nama_kelas
+                // 'wali_kelas' => $wali_kelas,
+                // 'kontak_wali_kelas' => $kontak
             ];
 
             $this->Kelas_model->insert_kelas($data);
@@ -77,8 +77,8 @@ class Master_kelas extends CI_Controller
 
         $this->form_validation->set_rules('id_sekolah', 'Sekolah', 'required|trim');
         $this->form_validation->set_rules('nama_kelas', 'Nama Kelas', 'required|trim');
-        $this->form_validation->set_rules('wali_kelas', 'Wali Kelas', 'required|trim');
-        $this->form_validation->set_rules('kontak_wali_kelas', 'Kontak', 'required|trim');
+        // $this->form_validation->set_rules('wali_kelas', 'Wali Kelas', 'required|trim');
+        // $this->form_validation->set_rules('kontak_wali_kelas', 'Kontak', 'required|trim');
 
         if ($this->form_validation->run() == false) {
 
@@ -92,8 +92,8 @@ class Master_kelas extends CI_Controller
             $set = [
                 'id_sekolah' => $this->input->post('id_sekolah'),
                 'nama_kelas' => $this->input->post('nama_kelas'),
-                'wali_kelas' => $this->input->post('wali_kelas'),
-                'kontak_wali_kelas' => $this->input->post('kontak_wali_kelas')
+                // 'wali_kelas' => $this->input->post('wali_kelas'),
+                // 'kontak_wali_kelas' => $this->input->post('kontak_wali_kelas')
 
             ];
 

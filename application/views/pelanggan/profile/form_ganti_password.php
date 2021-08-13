@@ -2,7 +2,7 @@
 <div class="main-content">
     <section class="section">
         <div class="section-header">
-            <h1>Ubah Profil</h1>
+            <h1>Ganti Password</h1>
         </div>
 
         <div class="section-body">
@@ -39,8 +39,6 @@
                                     </div>
                                 </div>
                             </form>
-
-
                         </div>
                     </div>
 

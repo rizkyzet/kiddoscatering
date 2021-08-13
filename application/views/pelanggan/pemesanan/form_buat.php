@@ -20,7 +20,7 @@
                             <!-- id_kelas -->
                             <div class="form-group">
                                 <label for="">Kelas</label>
-                                <select name="id_kelas" id="" class="form-control ">
+                                <select name="id_kelas" id="" class="form-control" disabled>
 
                                     <?php foreach ($combo_kelas as $combo) : ?>
                                         <optgroup label='<?= $combo['nama_sekolah'] ?>'>
@@ -51,10 +51,10 @@
                                             <input type="radio" name="senin" value="s" class="selectgroup-input">
                                             <span class="selectgroup-button">Siang</span>
                                         </label>
-                                        <label class="selectgroup-item">
+                                        <!-- <label class="selectgroup-item">
                                             <input type="radio" name="senin" value="ps" class="selectgroup-input">
                                             <span class="selectgroup-button">Dobel</span>
-                                        </label>
+                                        </label> -->
                                     </div>
                                 </div>
                             </div>
@@ -72,10 +72,10 @@
                                             <input type="radio" name="selasa" value="s" class="selectgroup-input">
                                             <span class="selectgroup-button">Siang</span>
                                         </label>
-                                        <label class="selectgroup-item">
+                                        <!-- <label class="selectgroup-item">
                                             <input type="radio" name="selasa" value="ps" class="selectgroup-input">
                                             <span class="selectgroup-button">Dobel</span>
-                                        </label>
+                                        </label> -->
                                     </div>
                                 </div>
                             </div>
@@ -93,10 +93,10 @@
                                             <input type="radio" name="rabu" value="s" class="selectgroup-input">
                                             <span class="selectgroup-button">Siang</span>
                                         </label>
-                                        <label class="selectgroup-item">
+                                        <!-- <label class="selectgroup-item">
                                             <input type="radio" name="rabu" value="ps" class="selectgroup-input">
                                             <span class="selectgroup-button">Dobel</span>
-                                        </label>
+                                        </label> -->
                                     </div>
                                 </div>
                             </div>
@@ -114,10 +114,10 @@
                                             <input type="radio" name="kamis" value="s" class="selectgroup-input">
                                             <span class="selectgroup-button">Siang</span>
                                         </label>
-                                        <label class="selectgroup-item">
+                                        <!-- <label class="selectgroup-item">
                                             <input type="radio" name="kamis" value="ps" class="selectgroup-input">
                                             <span class="selectgroup-button">Dobel</span>
-                                        </label>
+                                        </label> -->
                                     </div>
                                 </div>
                             </div>
@@ -135,10 +135,10 @@
                                             <input type="radio" name="jumat" value="s" class="selectgroup-input">
                                             <span class="selectgroup-button">Siang</span>
                                         </label>
-                                        <label class="selectgroup-item">
+                                        <!-- <label class="selectgroup-item">
                                             <input type="radio" name="jumat" value="ps" class="selectgroup-input">
                                             <span class="selectgroup-button">Dobel</span>
-                                        </label>
+                                        </label> -->
                                     </div>
                                 </div>
                             </div>

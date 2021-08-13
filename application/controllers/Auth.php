@@ -15,7 +15,7 @@ class Auth extends CI_Controller
     public function index()
     {
 
-        $this->form_validation->set_rules('id', 'ID', 'required', ['required' => 'Email harus diisi!', 'valid_email' => 'Email tidak valid!']);
+        $this->form_validation->set_rules('id', 'ID', 'required', ['required' => 'id harus diisi!']);
         $this->form_validation->set_rules('password', 'Password', 'required', ['required' => 'Password harus diisi!']);
 
         if ($this->form_validation->run() == false) {

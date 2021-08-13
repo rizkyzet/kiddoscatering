@@ -397,3 +397,50 @@ function getWarnaStatusPemesanan($status)
 
     return $warna;
 }
+
+function dd($var)
+{
+    var_dump($var);
+    die;
+}
+
+function alert($message, $status)
+{
+    $ci = get_instance();
+    if ($status == 'success') {
+
+        $ci->session->set_flashdata('pesan', '<div class="alert alert-success alert-dismissible fade show" role="alert">
+   ' . $message . '
+     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+       <span aria-hidden="true">&times;</span>
+     </button>
+   </div>');
+    } else {
+
+        $ci->session->set_flashdata('pesan', '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+    ' . $message . '
+     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+       <span aria-hidden="true">&times;</span>
+     </button>
+   </div>');
+    }
+}
+
+function getFullTextWaktuPesanan($pesanan)
+{
+    switch ($pesanan) {
+        case 'p':
+            return 'pagi';
+            break;
+        case 's':
+            return 'siang';
+            break;
+        case 'ps':
+            return 'pagi dan siang';
+            break;
+
+        default:
+            return 'tidak ditemukan';
+            break;
+    }
+}

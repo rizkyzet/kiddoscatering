@@ -51,7 +51,7 @@
 
                             <div class="form-group row justify-content-end">
                                 <div class="col-sm-10">
-                                    <button type="submit" class="btn btn-primary float-right">Simpan</button>
+                                    <button type="submit" class="btn btn-primary float-right">Ubah</button>
                                 </div>
                             </div>
                             </form>

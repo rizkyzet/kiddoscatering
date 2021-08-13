@@ -12,7 +12,7 @@ class Image_model extends CI_Model
         $config['allowed_types'] = 'gif|jpg|png|jpeg';
         $config['max_size']     = '20048';
         $config['upload_path'] = $this->upload_path;
-        $config['file_name'] = $this->new_name;
+        $config['file_name'] = rand();
         $this->load->library('upload', $config);
     }
 

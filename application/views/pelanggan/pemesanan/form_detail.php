@@ -75,10 +75,10 @@
                                     <td style="width: 25%;" class="border">Pesanan Siang</td>
                                     <td colspan="2"><?= $pesanan_siang ?></td>
                                 </tr>
-                                <tr class="border">
+                                <!-- <tr class="border">
                                     <td style="width: 25%;" class="border">Pesanan Dobel</td>
                                     <td colspan="2"><?= $pesanan_dobel ?></td>
-                                </tr>
+                                </tr> -->
 
                             </tbody>
                         </table>
@@ -192,12 +192,12 @@
                                     <td>Rp. 12.000</td>
                                     <td>Rp. <?= number_format($detail_pembayaran['total_siang'], 0, ',', '.')  ?></td>
                                 </tr>
-                                <tr>
+                                <!-- <tr>
                                     <td>Catering Pesan Dobel</td>
                                     <td><?= $detail_pembayaran['qty_dobel'] ?></td>
                                     <td>Rp. 24.000</td>
                                     <td>Rp. <?= number_format($detail_pembayaran['total_dobel'], 0, ',', '.')  ?></td>
-                                </tr>
+                                </tr> -->
                                 <tr class="border">
                                     <th class='text-right' colspan='3'>Subtotal : </th>
                                     <td>Rp. <?= number_format($subtotal, 0, ',', '.')  ?></td>

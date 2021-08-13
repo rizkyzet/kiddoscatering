@@ -190,6 +190,9 @@ class Master_makanan extends CI_Controller
         $where = ['id_makanan' => $id];
         $menu = $this->Menu_makanan_model->get_specific_makanan($where);
 
+        $this->db->update('detail_jadwal', ['id_makanan' => $id], ['id_makanan' => $id]);
+        $this->db->delete('ganti_menu', ['id_makanan' => $id]);
+
         unlink(FCPATH . 'assets/upload/menu_makanan/' . $menu['image_makanan']);
         $this->Menu_makanan_model->delete_makanan($where);
 
