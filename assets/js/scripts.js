@@ -357,6 +357,63 @@ $(document).ready(function () {
 
 });
 
+
+$(document).ready(function () {
+	$('.tombol-bayar-harian').on('click', function (e) {
+		e.preventDefault();
+		const nis = $('input[name="nis"]').val();
+		const tanggalPesan = $('input[name="tanggal_pesan"').val();
+		const waktuPesan = $('input[name="waktu_pesan"]').val();
+
+		$.ajax({
+			url: 'http://localhost/kiddoscatering/pelanggan/pemesanan/token_harian',
+			data: {
+				nis: nis,
+				tanggal_pesan: tanggalPesan,
+				waktu_pesan: waktuPesan
+			},
+			method: 'POST',
+			success: function (data) {
+
+				function changeResult(type, data) {
+
+					$("#result-type").val(type);
+					$("#result-data").val(JSON.stringify(data));
+
+				}
+
+				snap.pay(data, {
+
+					onSuccess: function (result) {
+						changeResult('success', result);
+						console.log(result.status_message);
+						console.log(result);
+						$("#form-payment-harian").submit();
+
+					},
+					onPending: function (result) {
+						changeResult('pending', result);
+						console.log(result.status_message);
+						console.log(result);
+						$("#form-payment-harian").submit();
+					},
+					onError: function (result) {
+						changeResult('error', result);
+						console.log(result.status_message);
+
+					},
+					onClose: function () {
+						console.log('customer closed the popup without finishing the payment');
+					}
+				});
+
+			}
+		})
+	})
+});
+
+
+
 // window.setTimeout("waktu()", 1000);
 
 // function waktu() {

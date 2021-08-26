@@ -46,13 +46,13 @@
                             </tbody>
                         </table>
 
-                        <form action="<?= base_url('pelanggan/pemesanan/bayar_harian') ?>" method="POST">
+                        <form id="form-payment-harian" action="<?= base_url('pelanggan/pemesanan/save_order_harian') ?>" method="POST">
                             <input type="hidden" value="<?= $siswa['nis'] ?>" name="nis">
                             <input type="hidden" value="<?= $tanggal_pesan ?>" name="tanggal_pesan">
                             <input type="hidden" value="<?= $waktu_pesan ?>" name="waktu_pesan">
-                            <input type="hidden" name="result_type">
-                            <input type="hidden" name="result_data">
-                            <button type="submit" class="btn btn-sm btn-primary float-right">Bayar</button>
+                            <input type="hidden" name="result_type" id="result-type">
+                            <input type="hidden" name="result_data" id="result-data">
+                            <button type="submit" class="btn btn-sm btn-primary float-right tombol-bayar-harian">Bayar</button>
                         </form>
                     </div>
                 </div>

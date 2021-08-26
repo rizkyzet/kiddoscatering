@@ -323,6 +323,17 @@ function no_pemesanan()
     $no_pemesanan = "$type$bulan-$tahun-" . rand();
     return $no_pemesanan;
 }
+function no_pemesanan_harian()
+{
+    $type = 'PSN-H-';
+    $bulan = substr(strtoupper(getMonthIndo(date('F'))), 0, 3);
+    $tahun = substr(date('Y'), 2);
+    $no_pemesanan = "$type$bulan-$tahun-" . rand();
+    return $no_pemesanan;
+}
+
+
+
 
 function no_pembayaran()
 {

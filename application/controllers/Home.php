@@ -22,9 +22,15 @@ class Home extends CI_Controller
 	public function index()
 	{
 
-
-
 		$data['user'] = $this->User_model->get_user_by_login();
+		$this->db->select('*');
+		$this->db->from('jadwal');
+		$this->db->join('detail_jadwal', 'jadwal.id_jadwal=detail_jadwal.id_jadwal');
+		$this->db->join('menu_makanan', 'detail_jadwal.id_makanan=menu_makanan.id_makanan');
+		$this->db->where('jadwal.bulan', date('m'));
+		$data['makanan'] = $this->db->get()->result_array();
+
+
 		$this->load->view('templates_homepage/header', $data);
 		$this->load->view('templates_homepage/navbar');
 		$this->load->view('homepage/beranda/beranda');

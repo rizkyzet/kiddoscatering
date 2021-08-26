@@ -14,7 +14,7 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav ml-auto">
-                <a class="nav-item nav-link active" href="<?= base_url('home') ?>">Beranda <span class="sr-only">(current)</span></a>
+                <a class="nav-item nav-link active" href="<?= base_url('home') ?>">Home <span class="sr-only">(current)</span></a>
                 <a class="nav-item nav-link" href="<?= base_url('menu') ?>">Menu kita</a>
                 <a class="nav-item nav-link" href="<?= base_url('jadwal') ?>">Jadwal</a>
                 <!-- <a class="nav-item nav-link " href="#">Tentang Kami</a> -->

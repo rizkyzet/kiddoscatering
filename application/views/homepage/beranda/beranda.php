@@ -13,7 +13,18 @@
 <div class="container">
 
     <!-- Info Panel -->
-
+    <div class="row justify-content-center">
+        <div class="col-12 info-panel">
+            <h3 class="text-center mb-5 font-weight-bold">MENU BULAN INI</h3>
+            <div class="row justify-content-center owl-carousel owl-theme">
+                <?php foreach ($makanan as $mkn) : ?>
+                    <div class="item">
+                        <img class="img-responsive" src="<?= base_url('assets/upload/menu_makanan/' . $mkn['image_makanan']) ?>">
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+    </div>
     <!-- Akhir Infor Panel -->
 
     <!-- Workingspace -->

@@ -62,6 +62,7 @@ class Pemesanan extends CI_Controller
             $this->db->where('month(tanggal_mulai)', $month_number);
             $this->db->where('year(tanggal_mulai)', date('Y'));
             $this->db->where('nis', $this->session->userdata('nis'));
+            $this->db->where('tipe', 'bulanan');
             $this->db->where_in('status_pemesanan', ['settlement', 'pending']);
             $cek_bulan = $this->db->get('pemesanan')->row_array();
 
@@ -238,6 +239,7 @@ class Pemesanan extends CI_Controller
         $no_pesanan = $this->input->post('no_psn');
         $tanggal_mulai = $this->input->post('tanggal_mulai');
         $pesanan = json_decode($this->input->post('pesanan'), true);
+
         $result = json_decode($this->input->post('result_data'), true);
 
 
@@ -276,17 +278,31 @@ class Pemesanan extends CI_Controller
         $data['siswa'] = $this->Siswa_model->get_specific_siswa(['nis' => $this->session->userdata('nis')]);
         $data['kelas'] = $this->Kelas_model->get_spesific_kelas(['id_kelas' => $data['siswa']['id_kelas']]);
         $data['pemesanan'] = $this->db->get_where('pemesanan', ['pemesanan.no_pemesanan' => $no_pemesanan])->row_array();
+        $data['cekTipe'] = $data['pemesanan']['tipe'];
         $data['pesanan_pagi'] = $this->db->get_where('detail_pemesanan', ['no_pemesanan' => $no_pemesanan, 'pesan' => 'p'])->num_rows();
         $data['pesanan_siang'] = $this->db->get_where('detail_pemesanan', ['no_pemesanan' => $no_pemesanan, 'pesan' => 's'])->num_rows();
         $data['pesanan_dobel'] = $this->db->get_where('detail_pemesanan', ['no_pemesanan' => $no_pemesanan, 'pesan' => 'ps'])->num_rows();
-        $data['detail_pembayaran'] = [
-            'qty_pagi' => $data['pesanan_pagi'],
-            'qty_siang' => $data['pesanan_siang'],
-            'qty_dobel' => $data['pesanan_dobel'],
-            'total_pagi' => $data['pesanan_pagi'] * 12000,
-            'total_siang' => $data['pesanan_siang'] * 12000,
-            'total_dobel' => $data['pesanan_dobel'] * 24000,
-        ];
+
+        if ($data['cekTipe'] == 'bulanan') {
+
+            $data['detail_pembayaran'] = [
+                'qty_pagi' => $data['pesanan_pagi'],
+                'qty_siang' => $data['pesanan_siang'],
+                'qty_dobel' => $data['pesanan_dobel'],
+                'total_pagi' => $data['pesanan_pagi'] * 12000,
+                'total_siang' => $data['pesanan_siang'] * 12000,
+                'total_dobel' => $data['pesanan_dobel'] * 24000,
+            ];
+        } else {
+            $data['detail_pembayaran'] = [
+                'qty_pagi' => $data['pesanan_pagi'],
+                'qty_siang' => $data['pesanan_siang'],
+                'qty_dobel' => $data['pesanan_dobel'],
+                'total_pagi' => $data['pesanan_pagi'] * 15000,
+                'total_siang' => $data['pesanan_siang'] * 15000,
+                'total_dobel' => $data['pesanan_dobel'] * 24000,
+            ];
+        }
 
         $data['subtotal'] =  $data['detail_pembayaran']['total_pagi'] + $data['detail_pembayaran']['total_siang'] + $data['detail_pembayaran']['total_dobel'];
 
@@ -460,16 +476,123 @@ Pesanan tanggal ' . date('d', strtotime($tanggal)) . ' Berhasil Diubah !
                 $this->form_validation->set_message('tgl_pesan', 'Anda sudah memesan di tanggal ' . $value);
                 return false;
             } else {
-                if (strtotime(date('Y-m-d')) > strtotime($value)) {
-                    $this->form_validation->set_message('tgl_pesan', 'Tanggal sudah lewat!');
+
+                if (date('l', strtotime($value)) == 'Saturday' || date('l', strtotime($value)) == 'Saturday') {
+                    $this->form_validation->set_message('tgl_pesan', 'Hari libur!');
                     return false;
                 } else {
-                    if (date('Y-m-d') == $value && date('H') > 8) {
-                        $this->form_validation->set_message('tgl_pesan', 'Jam sudah lewat!');
+
+                    if (strtotime(date('Y-m-d')) > strtotime($value)) {
+                        $this->form_validation->set_message('tgl_pesan', 'Tanggal sudah lewat!');
                         return false;
+                    } else {
+                        if (date('Y-m-d') == $value && date('H') > 8) {
+                            $this->form_validation->set_message('tgl_pesan', 'Jam sudah lewat!');
+                            return false;
+                        }
                     }
                 }
             }
         }
+    }
+
+
+    public function token_harian()
+    {
+        $user = $this->User_model->get_user_by_login();
+        $waktu_pesan = $this->input->post('waktu_pesan');
+        $tanggal_pesan = $this->input->post('tanggal_pesan');
+        $total_byr = 15000;
+        $no_psn = no_pemesanan_harian();
+
+        $item_details = array(
+            'id' => $no_psn,
+            'price' => $total_byr,
+            'quantity' => 1,
+            'name' => "Bayar Catering Harian " . getFullTextWaktuPesanan($waktu_pesan) . " tgl $tanggal_pesan"
+        );
+
+        $transaction_details = array(
+            'order_id' => $no_psn,
+            'gross_amount' => $total_byr, // no decimal allowed for creditcard
+
+        );
+
+        // Optional
+        $item_details = [$item_details];
+
+
+
+        // Optional
+        $customer_details = array(
+            'first_name'    => $user['nama_siswa'] . ' (' . $user['nis'] . ')',
+            'nis' => $user['nis']
+            // 'email'         => $user['email'],
+            // 'phone' => $user['no_hp']
+
+        );
+
+
+        $credit_card['secure'] = true;
+        $time = time();
+        $custom_expiry = array(
+            'start_time' => date("Y-m-d H:i:s O", $time),
+            'unit' => 'minute',
+            'duration'  => 60
+        );
+
+        $transaction_data = array(
+            'transaction_details' => $transaction_details,
+            'item_details'       => $item_details,
+            'customer_details'   => $customer_details,
+            'credit_card'        => $credit_card,
+            'expiry'             => $custom_expiry,
+            'enabled_payments' => array('bca_va', 'bni_va')
+        );
+
+        error_log(json_encode($transaction_data));
+        $snapToken = $this->midtrans->getSnapToken($transaction_data);
+        error_log($snapToken);
+        echo $snapToken;
+    }
+
+    public function save_order_harian()
+    {
+        $siswa = $this->db->get_where('siswa', ['nis' => $this->input->post('nis')])->row_array();
+        $tanggal_pesan = $this->input->post('tanggal_pesan');
+        $waktu_pesan = $this->input->post('waktu_pesan');
+        $result = json_decode($this->input->post('result_data'), TRUE);
+
+        $data_pemesanan = [
+            'no_pemesanan' => $result['order_id'],
+            'nis' => $siswa['nis'],
+            'tipe' => 'harian',
+            'jenis_pembayaran' => $result['payment_type'],
+            'bank' => $result['va_numbers'][0]['bank'],
+            'va_number' => $result['va_numbers'][0]['va_number'],
+            'total_bayar' => $result['gross_amount'],
+            'tanggal_dibuat' => $result['transaction_time'],
+            'tanggal_dibayar' => '',
+            'tanggal_mulai' => $tanggal_pesan,
+            'instruksi' => $result['pdf_url'],
+            'status_pemesanan' => $result['transaction_status']
+        ];
+
+        $data_detail = [
+            'no_pemesanan' => $result['order_id'],
+            'tgl_detail' => $tanggal_pesan,
+            'pesan' => $waktu_pesan
+        ];
+
+        $this->Pemesanan_model->insert_pemesanan($data_pemesanan);
+        $this->db->insert('detail_pemesanan', $data_detail);
+
+        $this->session->set_flashdata('pesan', '<div class="alert alert-success alert-dismissible fade show" role="alert">
+        Pemesanan berhasil dibuat, silahkan segera melakukan pembayaran !
+         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+           <span aria-hidden="true">&times;</span>
+         </button>
+       </div>');
+        redirect('pelanggan/pemesanan');
     }
 }

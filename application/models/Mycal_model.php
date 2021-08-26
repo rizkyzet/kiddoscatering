@@ -84,6 +84,7 @@ class Mycal_model extends CI_Model
 		//       26 => 'ytr'
 		// );
 		$data = $this->get_calendar_data($year, $month, $no_pemesanan);
+
 		return $this->calendar->generate($year, $month, $data);
 	}
 

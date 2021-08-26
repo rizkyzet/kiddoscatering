@@ -183,13 +183,13 @@
                                 <tr>
                                     <td>Catering Pesan Pagi</td>
                                     <td><?= $detail_pembayaran['qty_pagi'] ?></td>
-                                    <td>Rp. 12.000</td>
+                                    <td><?= $cekTipe == 'harian' ? 'Rp. 15.000' : 'Rp. 12.000' ?></td>
                                     <td>Rp. <?= number_format($detail_pembayaran['total_pagi'], 0, ',', '.')  ?></td>
                                 </tr>
                                 <tr>
                                     <td>Catering Pesan Siang</td>
                                     <td><?= $detail_pembayaran['qty_siang'] ?></td>
-                                    <td>Rp. 12.000</td>
+                                    <td><?= $cekTipe == 'harian' ? 'Rp. 15.000' : 'Rp. 12.000' ?></td>
                                     <td>Rp. <?= number_format($detail_pembayaran['total_siang'], 0, ',', '.')  ?></td>
                                 </tr>
                                 <!-- <tr>

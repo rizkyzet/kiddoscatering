@@ -12,20 +12,30 @@ class Pemesanan_model extends CI_Model
         $tanggal_pesanan = date_range($tanggal_mulai, date('Y-m-t', strtotime($post['tanggal_mulai'])));
 
         foreach ($tanggal_pesanan as $tgl) {
+            $this->db->select('*');
+            $this->db->from('pemesanan');
+            $this->db->join('detail_pemesanan', 'pemesanan.no_pemesanan=detail_pemesanan.no_pemesanan');
+            $this->db->where(['nis' => $this->session->userdata('nis'), 'tgl_detail' => $tgl, 'status_pemesanan' => 'settlement']);
+            $cekHarian = $this->db->get()->row_array();
 
             if (date('l', strtotime($tgl)) == "Sunday" || date('l', strtotime($tgl)) == "Saturday") {
                 $pesanan[] = ['tanggal' => $tgl, 'pesan' => 'libur'];
             } else {
-                if (date('l', strtotime($tgl)) == "Monday") {
-                    $pesanan[] = ['tanggal' => $tgl, 'pesan' => $post['senin']];
-                } elseif (date('l', strtotime($tgl)) == "Tuesday") {
-                    $pesanan[] = ['tanggal' => $tgl, 'pesan' => $post['selasa']];
-                } elseif (date('l', strtotime($tgl)) == "Wednesday") {
-                    $pesanan[] = ['tanggal' => $tgl, 'pesan' => $post['rabu']];
-                } elseif (date('l', strtotime($tgl)) == "Thursday") {
-                    $pesanan[] = ['tanggal' => $tgl, 'pesan' => $post['kamis']];
-                } elseif (date('l', strtotime($tgl)) == "Friday") {
-                    $pesanan[] = ['tanggal' => $tgl, 'pesan' => $post['jumat']];
+                if ($cekHarian) {
+                    $pesanan[] = ['tanggal' => $tgl, 'pesan' => 'harian'];
+                } else {
+
+                    if (date('l', strtotime($tgl)) == "Monday") {
+                        $pesanan[] = ['tanggal' => $tgl, 'pesan' => $post['senin']];
+                    } elseif (date('l', strtotime($tgl)) == "Tuesday") {
+                        $pesanan[] = ['tanggal' => $tgl, 'pesan' => $post['selasa']];
+                    } elseif (date('l', strtotime($tgl)) == "Wednesday") {
+                        $pesanan[] = ['tanggal' => $tgl, 'pesan' => $post['rabu']];
+                    } elseif (date('l', strtotime($tgl)) == "Thursday") {
+                        $pesanan[] = ['tanggal' => $tgl, 'pesan' => $post['kamis']];
+                    } elseif (date('l', strtotime($tgl)) == "Friday") {
+                        $pesanan[] = ['tanggal' => $tgl, 'pesan' => $post['jumat']];
+                    }
                 }
             }
         }
@@ -115,6 +125,7 @@ class Pemesanan_model extends CI_Model
     {
         foreach ($pesanan as $psn) {
             if ($psn['pesan'] == "libur") {
+            } elseif ($psn['pesan'] == "harian") {
             } else {
                 $data = [
                     'no_pemesanan' => $no_pesanan,
