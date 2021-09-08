@@ -109,13 +109,17 @@ class Pengiriman extends CI_Controller
 
 
 
-        if ($data['menu_hari_ini']) {
-            $data['nama_makanan_hari_ini'] = $this->db->get_where('menu_makanan', ['id_makanan' => $data['menu_hari_ini']['id_makanan']])->row_array();
-        } else {
-            // echo "<h1>Menu Bulan ini belum ditentukan, Segera Buat Menu Bulan Ini!</h1>";
-            alert('Pengiriman error!, Menu belum ditentukan!, silahkan buat jadwal menu terlebih dahulu', 'fail');
-            redirect('admin/jadwal_menu');
-        }
+        // if ($data['menu_hari_ini']) {
+        //     $data['nama_makanan_hari_ini'] = $this->db->get_where('menu_makanan', ['id_makanan' => $data['menu_hari_ini']['id_makanan']])->row_array();
+        // } elseif (date('D') == 'Sat' || date('D') == 'Sun') {
+        //     // echo "<h1>Menu Bulan ini belum ditentukan, Segera Buat Menu Bulan Ini!</h1>";
+        //     alert('Hari ini libur!', 'fail');
+        //     redirect('admin/jadwal_menu');
+        // } else {
+        //     // echo "<h1>Menu Bulan ini belum ditentukan, Segera Buat Menu Bulan Ini!</h1>";
+        //     alert('Pengiriman error!, Menu belum ditentukan!, silahkan buat jadwal menu terlebih dahulu', 'fail');
+        //     redirect('admin/jadwal_menu');
+        // }
 
 
 
@@ -141,8 +145,10 @@ class Pengiriman extends CI_Controller
         }
 
         //jika hari sabtu atau minggu
-        if (date('D', strtotime($tanggal)) == 'Sun' || date('D', strtotime($tanggal)) == 'Sat') {
-            $data['holiday'] = true;
+        if (date('D', strtotime($tanggal)) == 'Sun' || date('D', strtotime($tanggal)) == 'Sat' || !$data['menu_hari_ini']) {
+            $data['holiday'] = date('D', strtotime($tanggal)) == 'Sun' || date('D', strtotime($tanggal)) == 'Sat' ? true : false;
+            $data['menuTidakDitemukan'] =  !$data['menu_hari_ini'] ? true : false;
+
             $this->load->view('templates_stisla_dashboard/header', $data);
             $this->load->view('templates_stisla_dashboard/navbar');
             $this->load->view('templates_stisla_dashboard/sidebar_admin');
@@ -150,7 +156,8 @@ class Pengiriman extends CI_Controller
             $this->load->view('templates_stisla_dashboard/footer');
         } else {
             $data['holiday'] = false;
-
+            $data['menuTidakDitemukan'] =  !$data['menu_hari_ini'] ? true : false;
+            $data['nama_makanan_hari_ini'] = $this->db->get_where('menu_makanan', ['id_makanan' => $data['menu_hari_ini']['id_makanan']])->row_array();
 
             foreach ($data['kelas'] as $kelas) {
 

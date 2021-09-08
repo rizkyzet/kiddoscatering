@@ -31,11 +31,21 @@ class Master_kelas extends CI_Controller
 
         $sekolah = $this->input->post('sekolah');
         $nama_kelas = $this->input->post('nama_kelas');
-        $wali_kelas = $this->input->post('wali_kelas');
-        $kontak = $this->input->post('kontak_wali_kelas');
+        // $wali_kelas = $this->input->post('wali_kelas');
+        // $kontak = $this->input->post('kontak_wali_kelas');
+
+
+        $apakahNamaKelasSama = $this->db->get_where('kelas', ['id_sekolah' => $sekolah, 'nama_kelas' => $nama_kelas])->row_array();
+        if ($apakahNamaKelasSama) {
+            $is_unique = '|is_unique[kelas.nama_kelas]';
+        } else {
+            $is_unique = '';
+        }
+
+
 
         $this->form_validation->set_rules('sekolah', 'Sekolah', 'required');
-        $this->form_validation->set_rules('nama_kelas', 'Nama Kelas', 'required');
+        $this->form_validation->set_rules('nama_kelas', 'Nama Kelas', 'required' . $is_unique);
         // $this->form_validation->set_rules('wali_kelas', 'Wali Kelas', 'required');
         // $this->form_validation->set_rules('kontak_wali_kelas', 'Kontak', 'required');
 
@@ -75,8 +85,30 @@ class Master_kelas extends CI_Controller
         $data['kelas'] = $this->Kelas_model->get_spesific_kelas(['id_kelas' => $id]);
         $data['combobox'] = $this->Sekolah_model->get_all_sekolah();
 
+
+        $sekolah = $this->input->post('id_sekolah');
+        $nama_kelas = $this->input->post('nama_kelas');
+
+
+        if (!is_null($sekolah)) {
+            if ($data['kelas']['nama_kelas'] == $nama_kelas && $data['kelas']['id_sekolah'] == $sekolah) {
+                $is_unique = '';
+            } else {
+                $apakahNamaKelasSama = $this->db->get_where('kelas', ['id_sekolah' => $sekolah, 'nama_kelas' => $nama_kelas])->row_array();
+                if ($apakahNamaKelasSama) {
+                    $is_unique = '|is_unique[kelas.nama_kelas]';
+                } else {
+                    $is_unique = '';
+                }
+            }
+        } else {
+            $is_unique = '';
+        }
+
+
+
         $this->form_validation->set_rules('id_sekolah', 'Sekolah', 'required|trim');
-        $this->form_validation->set_rules('nama_kelas', 'Nama Kelas', 'required|trim');
+        $this->form_validation->set_rules('nama_kelas', 'Nama Kelas', 'required|trim' . $is_unique);
         // $this->form_validation->set_rules('wali_kelas', 'Wali Kelas', 'required|trim');
         // $this->form_validation->set_rules('kontak_wali_kelas', 'Kontak', 'required|trim');
 
@@ -88,6 +120,7 @@ class Master_kelas extends CI_Controller
             $this->load->view('admin/master_kelas/form_edit_kelas');
             $this->load->view('templates_stisla_dashboard/footer');
         } else {
+
 
             $set = [
                 'id_sekolah' => $this->input->post('id_sekolah'),

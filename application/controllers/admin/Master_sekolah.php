@@ -31,7 +31,7 @@ class Master_sekolah extends CI_Controller
         $alamat = $this->input->post('alamat_sekolah');
         $kontak = $this->input->post('kontak_sekolah');
 
-        $this->form_validation->set_rules('nama_sekolah', 'Nama sekolah', 'required|trim');
+        $this->form_validation->set_rules('nama_sekolah', 'Nama sekolah', 'required|trim|is_unique[sekolah.nama_sekolah]');
         $this->form_validation->set_rules('alamat_sekolah', 'Alamat sekolah', 'required|trim');
         $this->form_validation->set_rules('kontak_sekolah', 'Kontak sekolah', 'required|trim');
 
@@ -63,7 +63,18 @@ class Master_sekolah extends CI_Controller
         $data['user'] = $this->User_model->get_spesific_user(['email' => $this->session->userdata('email')]);
         $data['sekolah'] = $this->Sekolah_model->get_specific_sekolah($id);
 
-        $this->form_validation->set_rules('nama_sekolah', 'Nama Sekolah', 'required|trim');
+        $nama = $this->input->post('nama_sekolah');
+        $alamat = $this->input->post('alamat_sekolah');
+        $kontak = $this->input->post('kontak_sekolah');
+
+        if ($data['sekolah']['nama_sekolah'] == $nama) {
+            $is_unique = '';
+        } else {
+            $is_unique = '|is_unique[sekolah.nama_sekolah]';
+        }
+
+
+        $this->form_validation->set_rules('nama_sekolah', 'Nama Sekolah', 'required|trim' . $is_unique);
         $this->form_validation->set_rules('alamat_sekolah', 'Alamat Sekolah', 'required|trim');
         $this->form_validation->set_rules('kontak_sekolah', 'Kontak Sekolah', 'required|trim');
 
@@ -77,9 +88,6 @@ class Master_sekolah extends CI_Controller
         } else {
 
 
-            $nama = $this->input->post('nama_sekolah');
-            $alamat = $this->input->post('alamat_sekolah');
-            $kontak = $this->input->post('kontak_sekolah');
 
             $data = ['nama_sekolah' => $nama, 'alamat_sekolah' => $alamat, 'kontak_sekolah' => $kontak];
             $where = ['id_sekolah' => $id];

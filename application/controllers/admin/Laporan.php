@@ -21,7 +21,7 @@ class Laporan extends CI_Controller
         $id_kelas = $data['kelas'][0]['id_kelas'];
         $data['siswa'] = $this->db->get_where('siswa', ['id_kelas' => $id_kelas])->result_array();
         if (!$data['siswa']) {
-            alert('Laporan Pemesanan Error !, Data Siswa Sekolah <strong>' . $data['sekolah']['nama_sekolah'] . '</strong> Kosong, Silahkan tambah siswa terlebih dahulu', 'fail');
+            alert('Laporan Pemesanan Error !, Data Siswa Sekolah <strong>' . $data['sekolah']['nama_sekolah'] . ' kelas ' . $data['kelas'][0]['nama_kelas'] . '</strong> Kosong, Silahkan tambah siswa terlebih dahulu', 'fail');
             redirect('admin/master_siswa');
         }
         $data['combobox'] = $this->Kelas_model->get_combo_kelas();

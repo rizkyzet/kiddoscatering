@@ -2,7 +2,7 @@
 <div class="main-content">
     <section class="section">
         <div class="section-header">
-            <h1>Blank Page</h1>
+            <h1><?= get_title(); ?></h1>
         </div>
 
         <div class="section-body">
@@ -65,21 +65,25 @@
                                 <tr class="border">
                                     <td style="width: 30%;" class="border">Deskripsi</td>
                                     <td>Catering Bulan <?= getNamaBulanFromNumber(date('m', strtotime($pemesanan['tanggal_mulai']))) . " " . date('Y', strtotime($pemesanan['tanggal_mulai'])) ?> </td>
-                                    <td style="width: 1%;"><button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#detail_pemesanan_modal"><i class="fa fa-eye"></i></button></td>
+                                    <?php if ($pemesanan['status_pemesanan'] == 'settlement' || $pemesanan['status_pemesanan'] == 'pending') : ?>
+                                        <td style="width: 1%;"><button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#detail_pemesanan_modal"><i class="fa fa-eye"></i></button></td>
+                                    <?php endif; ?>
                                 </tr>
-                                <tr class="border">
-                                    <td style="width: 25%;" class="border">Pesanan Pagi</td>
-                                    <td colspan="2"><?= $pesanan_pagi ?></td>
-                                </tr>
-                                <tr class="border">
-                                    <td style="width: 25%;" class="border">Pesanan Siang</td>
-                                    <td colspan="2"><?= $pesanan_siang ?></td>
-                                </tr>
-                                <!-- <tr class="border">
-                                    <td style="width: 25%;" class="border">Pesanan Dobel</td>
-                                    <td colspan="2"><?= $pesanan_dobel ?></td>
-                                </tr> -->
+                                <?php if ($pemesanan['status_pemesanan'] == 'settlement' || $pemesanan['status_pemesanan'] == 'pending') : ?>
+                                    <tr class="border">
+                                        <td style="width: 25%;" class="border">Pesanan Pagi</td>
+                                        <td colspan="2"><?= $pesanan_pagi ?></td>
 
+                                    </tr>
+                                    <tr class="border">
+                                        <td style="width: 25%;" class="border">Pesanan Siang</td>
+                                        <td colspan="2"><?= $pesanan_siang ?></td>
+                                    </tr>
+                                    <tr class="border">
+                                        <td style="width: 25%;" class="border">Pesanan Dobel</td>
+                                        <td colspan="2"><?= $pesanan_dobel ?></td>
+                                    </tr>
+                                <?php endif; ?>
                             </tbody>
                         </table>
                         <br>
@@ -153,59 +157,61 @@
                                     </td>
                                 </tr>
 
-
                             </tbody>
                         </table>
                     </div>
                 </div>
                 <hr>
 
-                <div class="row">
-                    <div class="col">
-                        <table class="table table-sm table-border border">
-                            <thead>
-                                <tr class="border">
-                                    <th>
-                                        Deskripsi
-                                    </th>
-                                    <th>
-                                        Qty
-                                    </th>
-                                    <th>
-                                        Harga
-                                    </th>
-                                    <th>
-                                        Total
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>Catering Pesan Pagi</td>
-                                    <td><?= $detail_pembayaran['qty_pagi'] ?></td>
-                                    <td><?= $cekTipe == 'harian' ? 'Rp. 15.000' : 'Rp. 12.000' ?></td>
-                                    <td>Rp. <?= number_format($detail_pembayaran['total_pagi'], 0, ',', '.')  ?></td>
-                                </tr>
-                                <tr>
-                                    <td>Catering Pesan Siang</td>
-                                    <td><?= $detail_pembayaran['qty_siang'] ?></td>
-                                    <td><?= $cekTipe == 'harian' ? 'Rp. 15.000' : 'Rp. 12.000' ?></td>
-                                    <td>Rp. <?= number_format($detail_pembayaran['total_siang'], 0, ',', '.')  ?></td>
-                                </tr>
-                                <!-- <tr>
-                                    <td>Catering Pesan Dobel</td>
-                                    <td><?= $detail_pembayaran['qty_dobel'] ?></td>
-                                    <td>Rp. 24.000</td>
-                                    <td>Rp. <?= number_format($detail_pembayaran['total_dobel'], 0, ',', '.')  ?></td>
-                                </tr> -->
-                                <tr class="border">
-                                    <th class='text-right' colspan='3'>Subtotal : </th>
-                                    <td>Rp. <?= number_format($subtotal, 0, ',', '.')  ?></td>
-                                </tr>
-                            </tbody>
-                        </table>
+                <?php if ($pemesanan['status_pemesanan'] == 'settlement' || $pemesanan['status_pemesanan'] == 'pending') : ?>
+                    <div class="row">
+                        <div class="col">
+                            <table class="table table-sm table-border border">
+                                <thead>
+                                    <tr class="border">
+                                        <th>
+                                            Deskripsi
+                                        </th>
+                                        <th>
+                                            Qty
+                                        </th>
+                                        <th>
+                                            Harga
+                                        </th>
+                                        <th>
+                                            Total
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Catering Pesan Pagi</td>
+                                        <td><?= $detail_pembayaran['qty_pagi'] ?></td>
+                                        <td><?= $cekTipe == 'harian' ? 'Rp. 15.000' : 'Rp. 12.000' ?></td>
+                                        <td>Rp. <?= number_format($detail_pembayaran['total_pagi'], 0, ',', '.')  ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Catering Pesan Siang</td>
+                                        <td><?= $detail_pembayaran['qty_siang'] ?></td>
+                                        <td><?= $cekTipe == 'harian' ? 'Rp. 15.000' : 'Rp. 12.000' ?></td>
+                                        <td>Rp. <?= number_format($detail_pembayaran['total_siang'], 0, ',', '.')  ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Catering Pesan Dobel</td>
+                                        <td><?= $detail_pembayaran['qty_dobel'] ?></td>
+                                        <td>Rp. 24.000</td>
+                                        <td>Rp. <?= number_format($detail_pembayaran['total_dobel'], 0, ',', '.')  ?></td>
+                                    </tr>
+                                    <tr class="border">
+                                        <th class='text-right' colspan='3'>Subtotal : </th>
+                                        <td>Rp. <?= number_format($subtotal, 0, ',', '.')  ?></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-                </div>
+                <?php endif; ?>
+
             </div>
         </div>
     </section>

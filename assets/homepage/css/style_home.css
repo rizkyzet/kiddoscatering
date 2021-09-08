@@ -1,3 +1,7 @@
+/* new code */
+.row-content-1 {}
+
+
 /* Navbar */
 .navbar {
 	position: relative;
@@ -73,7 +77,7 @@
 	margin-top: -100px;
 	background-color: white;
 	padding: 30px;
-
+	border-bottom: 10px solid rgb(54, 97, 216);
 
 }
 

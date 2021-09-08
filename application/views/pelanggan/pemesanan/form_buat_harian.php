@@ -52,10 +52,10 @@
                                             <input type="radio" name="waktu_pesan" value="s" class="selectgroup-input">
                                             <span class="selectgroup-button">Siang</span>
                                         </label>
-                                        <!-- <label class="selectgroup-item">
-                                            <input type="radio" name="senin" value="ps" class="selectgroup-input">
+                                        <label class="selectgroup-item">
+                                            <input type="radio" name="waktu_pesan" value="ps" class="selectgroup-input">
                                             <span class="selectgroup-button">Dobel</span>
-                                        </label> -->
+                                        </label>
                                     </div>
                                 </div>
                             </div>

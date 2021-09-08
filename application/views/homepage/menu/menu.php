@@ -17,6 +17,7 @@
         <div class="col-12 info-panel">
             <div class="row justify-content-center">
 
+
                 <div class="col-lg-2 text-center" id="kategori-panel">
                     <h4>Menu Snack</h4>
                     <a href="<?= base_url('home/menu/') ?>#snack" class="btn btn-sm btn-light shadow tombol ">
@@ -50,7 +51,11 @@
 
     <!-- section-1 -->
 
-
+    <div class="alert alert-success my-5 ">
+        <strong>Seluruh Harga Menu Rp. 12.000 jika memesan paket bulanan</strong><br>
+        <hr>
+        <strong>Seluruh Harga Menu Rp. 15.000 jika memesan paket harian</strong>
+    </div>
     <?php foreach ($menu_makanan as $index => $menu) : ?>
 
         <div class="row mt-5" id="<?= $menu['nama_kategori'] ?>">

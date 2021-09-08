@@ -56,7 +56,7 @@ class Master_siswa extends CI_Controller
 
 
 
-        $this->form_validation->set_rules('nis', 'NIS', 'required|trim');
+        $this->form_validation->set_rules('nis', 'NIS', 'required|trim|is_unique[siswa.nis]');
         $this->form_validation->set_rules('nama_siswa', 'Nama Siswa', 'required|trim');
         $this->form_validation->set_rules('id_kelas', 'Kelas', 'required|trim');
         $this->form_validation->set_rules('alamat_siswa', 'Alamat', 'required|trim');
@@ -102,8 +102,17 @@ class Master_siswa extends CI_Controller
         $data['user'] = $this->User_model->get_spesific_user(['email' => $this->session->userdata('email')]);
         $data['combobox'] = $this->Kelas_model->get_combo_kelas();
         $data['siswa'] = $this->Siswa_model->get_specific_siswa(['nis' => $nis]);
+        $nis = $this->input->post('nis');
 
-        $this->form_validation->set_rules('nis', 'NIS', 'required|trim');
+        if ($data['siswa']['nis'] == $nis) {
+            $is_unique = '';
+        } else {
+            $is_unique = '|is_unique[siswa.nis]';
+        }
+
+
+
+        $this->form_validation->set_rules('nis', 'NIS', 'required|trim' . $is_unique);
         $this->form_validation->set_rules('nama_siswa', 'Nama Siswa', 'required|trim');
         $this->form_validation->set_rules('id_kelas', 'Kelas', 'required|trim');
         $this->form_validation->set_rules('alamat_siswa', 'Alamat', 'required|trim');

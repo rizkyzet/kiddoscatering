@@ -12,7 +12,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="nis">NIS</label>
-                                <input type="text" name="nis" id="nis" class="form-control" value="<?= $siswa['nis']; ?> ">
+                                <input type="text" name="nis" id="nis" class="form-control" value="<?= $siswa['nis']; ?>">
                                 <?= form_error('nis', '<div class="text-danger text-small">', '</div>') ?>
                             </div>
 

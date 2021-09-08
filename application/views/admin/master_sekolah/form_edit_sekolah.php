@@ -26,7 +26,7 @@
                                 <?= form_error('kontak_sekolah', '<div class="text-small text-danger">', '</div>') ?>
                             </div>
                             <button type="submit" class="btn btn-primary mt-4">Simpan</button>
-                            <button type="reset" class="btn btn-danger mt-4">Reset</button>
+
 
                         </div>
                     </div>

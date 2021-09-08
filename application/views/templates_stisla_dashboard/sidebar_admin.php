@@ -38,6 +38,7 @@
                 <a class="nav-link" href="<?= base_url('admin/master_makanan') ?>"><i class="fas fa-fw fa-utensils"></i> <span>Menu Makanan</span></a>
                 <!-- <a class="nav-link" href="<?= base_url('admin/master_makanan/menu_pengganti') ?>"><i class="fas fa-fw fa-utensils"></i> <span>Menu Pengganti</span></a> -->
                 <a class="nav-link" href="<?= base_url('admin/jadwal_menu/') ?>"><i class="fas fa-fw fa-calendar-alt"></i> <span>Jadwal Menu</span></a>
+                <a class="nav-link" href="<?= base_url('admin/master_kategori') ?>"><i class="fas fa-fw fa-tags"></i> <span>Kategori Makanan</span></a>
             </li>
 
             <li class="menu-header">Pemesanan</li>

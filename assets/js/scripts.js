@@ -2,6 +2,31 @@ $(function () {
 	$('[data-toggle="tooltip"]').tooltip()
 })
 
+$(document).ready(function () {
+	$('.datatables').dataTable({
+		"language": {
+			"sEmptyTable": "Tidak ada data yang tersedia pada tabel ini",
+			"sProcessing": "Sedang memproses...",
+			"sLengthMenu": "Tampilkan _MENU_ entri",
+			"sZeroRecords": "Tidak ditemukan data yang sesuai",
+			"sInfo": "Menampilkan _START_ sampai _END_ dari _TOTAL_ entri",
+			"sInfoEmpty": "Menampilkan 0 sampai 0 dari 0 entri",
+			"sInfoFiltered": "(disaring dari _MAX_ entri keseluruhan)",
+			"sInfoPostFix": "",
+			"sSearch": "Cari:",
+			"sUrl": "",
+			"oPaginate": {
+				"sFirst": "Pertama",
+				"sPrevious": "Sebelumnya",
+				"sNext": "Selanjutnya",
+				"sLast": "Terakhir"
+			}
+		}
+	});
+
+
+});
+
 function readURL(input) {
 	if (input.files && input.files[0]) {
 		var reader = new FileReader();
@@ -293,6 +318,9 @@ $(document).ready(function () {
 			method: 'post',
 			success: function (data) {
 				$('.laporan_pendapatan').html(data);
+				$(".laporan_pendapatan table").DataTable({
+					destroy: true, //use for reinitialize datatable
+				});
 			}
 
 		})
@@ -315,7 +343,11 @@ $(document).ready(function () {
 			method: 'post',
 			success: function (data) {
 				$('.laporan_pendapatan').html(data);
+				$(".laporan_pendapatan table").DataTable({
+					destroy: true, //use for reinitialize datatable
+				});
 			}
+
 
 		})
 	})
@@ -323,30 +355,7 @@ $(document).ready(function () {
 
 
 
-$(document).ready(function () {
-	$('.datatables').dataTable({
-		"language": {
-			"sEmptyTable": "Tidak ada data yang tersedia pada tabel ini",
-			"sProcessing": "Sedang memproses...",
-			"sLengthMenu": "Tampilkan _MENU_ entri",
-			"sZeroRecords": "Tidak ditemukan data yang sesuai",
-			"sInfo": "Menampilkan _START_ sampai _END_ dari _TOTAL_ entri",
-			"sInfoEmpty": "Menampilkan 0 sampai 0 dari 0 entri",
-			"sInfoFiltered": "(disaring dari _MAX_ entri keseluruhan)",
-			"sInfoPostFix": "",
-			"sSearch": "Cari:",
-			"sUrl": "",
-			"oPaginate": {
-				"sFirst": "Pertama",
-				"sPrevious": "Sebelumnya",
-				"sNext": "Selanjutnya",
-				"sLast": "Terakhir"
-			}
-		}
-	});
 
-
-});
 
 
 $(document).ready(function () {

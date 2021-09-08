@@ -278,6 +278,7 @@ class Pemesanan extends CI_Controller
         $data['siswa'] = $this->Siswa_model->get_specific_siswa(['nis' => $this->session->userdata('nis')]);
         $data['kelas'] = $this->Kelas_model->get_spesific_kelas(['id_kelas' => $data['siswa']['id_kelas']]);
         $data['pemesanan'] = $this->db->get_where('pemesanan', ['pemesanan.no_pemesanan' => $no_pemesanan])->row_array();
+
         $data['cekTipe'] = $data['pemesanan']['tipe'];
         $data['pesanan_pagi'] = $this->db->get_where('detail_pemesanan', ['no_pemesanan' => $no_pemesanan, 'pesan' => 'p'])->num_rows();
         $data['pesanan_siang'] = $this->db->get_where('detail_pemesanan', ['no_pemesanan' => $no_pemesanan, 'pesan' => 's'])->num_rows();
@@ -372,6 +373,7 @@ Anda belum melakukan pembayaran, mohon segera dibayar !
         $data['siswa'] = $this->Siswa_model->get_specific_siswa(['nis' => $this->session->userdata('nis')]);
         $data['pemesanan_header'] = $this->Pemesanan_model->get_pemesanan(['no_pemesanan' => $no_pemesanan]);
         $data['detail_pemesanan'] = $this->Pemesanan_model->get_detail_pemesanan(['no_pemesanan' => $no_pemesanan]);
+
         $tahun = date('Y', strtotime($data['pemesanan_header']['tanggal_mulai']));
         $bulan = date('m', strtotime($data['pemesanan_header']['tanggal_mulai']));
 
@@ -386,6 +388,8 @@ Anda belum melakukan pembayaran, mohon segera dibayar !
     </tr>";
 
         $data['calendar'] .= $this->Mycal_model->getCalendarPemesanan($tahun, $bulan, 'edit', $no_pemesanan);
+        $data['bulanText'] = getMonthIndo(date('F', strtotime($data['pemesanan_header']['tanggal_mulai'])));
+        $data['tahunText'] = date('Y', strtotime($data['pemesanan_header']['tanggal_mulai']));
 
         $this->load->view('templates_stisla_dashboard/header', $data);
         $this->load->view('templates_stisla_dashboard/navbar');
@@ -502,14 +506,14 @@ Pesanan tanggal ' . date('d', strtotime($tanggal)) . ' Berhasil Diubah !
         $user = $this->User_model->get_user_by_login();
         $waktu_pesan = $this->input->post('waktu_pesan');
         $tanggal_pesan = $this->input->post('tanggal_pesan');
-        $total_byr = 15000;
+        $total_byr = $waktu_pesan == 'ps' ? 30000 : 15000;
         $no_psn = no_pemesanan_harian();
 
         $item_details = array(
             'id' => $no_psn,
             'price' => $total_byr,
             'quantity' => 1,
-            'name' => "Bayar Catering Harian " . getFullTextWaktuPesanan($waktu_pesan) . " tgl $tanggal_pesan"
+            'name' => "Catering Harian " . getFullTextWaktuPesanan($waktu_pesan) . " tgl $tanggal_pesan"
         );
 
         $transaction_details = array(

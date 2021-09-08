@@ -26,7 +26,7 @@
                 </form>
 
                 <div class="table-responsive-sm overflow-auto laporan_pendapatan">
-                    <table class="table table-sm">
+                    <table class="table table-sm datatables table_laporan_pendapatan">
                         <thead>
                             <tr>
                                 <th>No</th>
@@ -53,11 +53,13 @@
                                     <td><?= $dapat['total_bayar'] ?></td>
                                 </tr>
                             <?php endforeach; ?>
+                        </tbody>
+                        <tfoot>
                             <tr>
                                 <th class="border">Total Pendapatan</th>
                                 <td class="border text-center" colspan="7" class="text-center"><?= $total_pendapatan ?></td>
                             </tr>
-                        </tbody>
+                        </tfoot>
                     </table>
                 </div>
 

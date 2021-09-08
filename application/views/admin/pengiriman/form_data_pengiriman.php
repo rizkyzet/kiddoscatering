@@ -30,6 +30,15 @@
                             </div>
                         </div>
                     </div>
+
+                <?php elseif ($menuTidakDitemukan) : ?>
+                    <div class="div-pengiriman">
+                        <div class="row">
+                            <div class="col">
+                                <h1>Menu Bulan ini belum dibuat, Segera Buat Menu Bulan Ini!</h1>
+                            </div>
+                        </div>
+                    </div>
                 <?php else : ?>
 
                     <div class="div-pengiriman">
